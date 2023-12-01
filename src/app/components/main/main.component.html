@@ -1,9 +1,16 @@
 <div class="w-[90%] bg-white mx-auto p-4 rounded-xl">
-  <div>
+  <div class="w-full flex items-center justify-between mb-5">
     <button
       class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
     >
       ERC20
+    </button>
+
+    <button
+      class="border border-slate-300 rounded-lg px-4 py-2 text-slate-700 font-bold"
+      (click)="copyToClipboard()"
+    >
+      Copy to Clipboard
     </button>
   </div>
 
@@ -139,7 +146,57 @@
       <div class="py-2 border-b-2 border-slate-200">
         <h3 class="mb-2 text-sm font-bold text-slate-600">Staking</h3>
 
-        
+        <div>
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="staking"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="staking">Staking</label>
+          </div>
+
+          <div>
+            <label for="minStaking" class="text-xs"
+              >Minimum Staking Duration</label
+            >
+            <input
+              type="text"
+              class="border border-black rounded"
+              placeholder="2 days"
+              [(ngModel)]="minStakingDuration"
+              (ngModelChange)="generateContract()"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="py-2 border-b-2 border-slate-200">
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Rewards</h3>
+
+        <div>
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="rewards"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="staking">Give Rewards</label>
+          </div>
+
+          <div>
+            <label for="minStaking" class="text-xs"
+              >Rewards Multiplier</label
+            >
+            <input
+              type="text"
+              class="border border-black rounded"
+              placeholder="2 days"
+              [(ngModel)]="rewardMultiplier"
+              (ngModelChange)="generateContract()"
+            />
+          </div>
+        </div>
       </div>
 
       <div class="py-2 border-b-2 border-slate-200">
@@ -172,7 +229,7 @@
     <div
       class="w-[75%] p-4 max-h-[80vh] bg-gray-800 rounded-xl overflow-y-scroll"
     >
-      <code class="text-gray-300"> {{ contract }} </code>
+      <pre><code class="text-gray-300">{{ contract }}</code></pre>
     </div>
   </div>
 </div>
