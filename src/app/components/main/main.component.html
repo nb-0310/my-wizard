@@ -1,0 +1,178 @@
+<div class="w-[90%] bg-white mx-auto p-4 rounded-xl">
+  <div>
+    <button
+      class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
+    >
+      ERC20
+    </button>
+  </div>
+
+  <div class="flex max-h-[80vh] gap-4">
+    <div class="w-[25%] p-3 overflow-y-scroll">
+      <div>
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Settings</h3>
+
+        <div class="border-b-2 border-slate-200 pb-4">
+          <label for="name" class="text-xs">Name</label>
+          <input
+            type="text"
+            class="border border-black block rounded"
+            [(ngModel)]="contractParams.name"
+            (ngModelChange)="generateContract()"
+          />
+
+          <label for="symbol" class="text-xs">Symbol</label>
+          <input
+            type="text"
+            class="border border-black block rounded"
+            [(ngModel)]="contractParams.symbol"
+            (ngModelChange)="generateContract()"
+          />
+
+          <label for="premint" class="text-xs">Premint</label>
+          <input
+            type="text"
+            class="border border-black block rounded"
+            [(ngModel)]="contractParams.premint"
+            (ngModelChange)="generateContract()"
+          />
+        </div>
+      </div>
+
+      <div class="py-2">
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Features</h3>
+
+        <div class="flex flex-col gap-1 border-b-2 border-slate-200 pb-2">
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.mintable"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="mintable">Mintable</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.burnable"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="burnable">Burnable</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.pausable"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="pausable">Pausable</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.permit"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="permit">Permit</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.votes"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="votes">Votes</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.flashmint"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="flash">Flash Minting</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-2 border-b-2 border-slate-200">
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Access Control</h3>
+
+        <div class="flex items-center gap-4">
+          <input
+            type="radio"
+            [(ngModel)]="contractParams.access"
+            (change)="generateContract()"
+            [value]="'ownable'"
+            name="accessType"
+          />
+          <label for="ownable">Ownable</label>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <input
+            type="radio"
+            [(ngModel)]="contractParams.access"
+            (change)="generateContract()"
+            [value]="'roles'"
+            name="accessType"
+          />
+          <label for="roles">Roles</label>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <input
+            type="radio"
+            [(ngModel)]="contractParams.access"
+            (change)="generateContract()"
+            [value]="'managed'"
+            name="accessType"
+          />
+          <label for="managed">Managed</label>
+        </div>
+      </div>
+
+      <div class="py-2 border-b-2 border-slate-200">
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Staking</h3>
+
+        
+      </div>
+
+      <div class="py-2 border-b-2 border-slate-200">
+        <h3 class="mb-2 text-sm font-bold text-slate-600">Upgradeability</h3>
+
+        <div class="flex items-center gap-4">
+          <input
+            type="radio"
+            [(ngModel)]="contractParams.upgradeable"
+            (change)="generateContract()"
+            value="'transparent'"
+            name="upgradeable"
+          />
+          <label for="transparent">Transparent</label>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <input
+            type="radio"
+            [(ngModel)]="contractParams.upgradeable"
+            (change)="generateContract()"
+            value="'uups'"
+            name="upgradeable"
+          />
+          <label for="uups">UUPS</label>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-[75%] p-4 max-h-[80vh] bg-gray-800 rounded-xl overflow-y-scroll"
+    >
+      <code class="text-gray-300"> {{ contract }} </code>
+    </div>
+  </div>
+</div>
