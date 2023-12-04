@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { erc721 } from '@openzeppelin/wizard';
-import { ERC721Options } from '@openzeppelin/wizard/dist/erc721';
+import { erc20 } from '@openzeppelin/wizard';
+import { ERC20Options } from '@openzeppelin/wizard/dist/erc20';
 import { ClipboardService } from 'ngx-clipboard';
-import { Deployerc721Service } from '../../services/deployerc721.service';
+import { Deployerc20Service } from '../../services/deployerc20.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-erc721',
-  templateUrl: './erc721.component.html',
-  styleUrls: ['./erc721.component.css'],
+  selector: 'app-erc20',
+  templateUrl: './erc20.component.html',
+  styleUrl: './erc20.component.css',
 })
-export class Erc721Component {
+export class Erc20Component {
   contract: string = '';
   staking: boolean = false;
   minStakingDuration: string = '2 days';
@@ -18,7 +18,7 @@ export class Erc721Component {
   rewards: boolean = false;
   votingThreshold: number = 10;
 
-  contractParams: ERC721Options = {
+  contractParams: ERC20Options = {
     name: 'ExampleToken',
     symbol: 'ETK',
   };
@@ -27,7 +27,7 @@ export class Erc721Component {
 
   constructor(
     private clipboardService: ClipboardService,
-    public deployerc721Service: Deployerc721Service,
+    public deployerc20Service: Deployerc20Service,
     public router: Router
   ) {}
 
@@ -41,13 +41,13 @@ export class Erc721Component {
 
   generateTransferFunction(): string {
     return `
-    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
-      _transfer(from, to, tokenId);
+    function transfer(address to, uint256 amount) public {
+        _transfer(msg.sender, to, amount);
     }`;
   }
 
   generateContract(): string {
-    const contract: string = erc721.print(this.contractParams as ERC721Options);
+    const contract: string = erc20.print(this.contractParams as ERC20Options);
 
     const lastCurlyBraceIndex: number = contract.lastIndexOf('}');
 
@@ -67,9 +67,7 @@ export class Erc721Component {
   }
 
   async deploy() {
-    const res = await this.deployerc721Service.deployERC721(
-      this.contractParams
-    );
+    const res = await this.deployerc20Service.deployERC721(this.contractParams);
 
     this.contractAddress = res;
   }

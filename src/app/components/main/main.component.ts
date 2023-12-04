@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { erc20 } from '@openzeppelin/wizard';
 import { ERC20Options } from '@openzeppelin/wizard/dist/erc20';
 import { ClipboardService } from 'ngx-clipboard';
+import { DeploygtService } from '../../services/deploygt.service';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +22,12 @@ export class MainComponent {
     symbol: 'ETK',
   };
 
-  constructor(private clipboardService: ClipboardService) {}
+  contractAddress: string = '';
+
+  constructor(
+    private clipboardService: ClipboardService,
+    public deploygtService: DeploygtService
+  ) {}
 
   copyToClipboard(): void {
     this.clipboardService.copyFromContent(this.contract);
@@ -33,7 +39,7 @@ export class MainComponent {
 
   generateTransferFunction(): string {
     if (this.contractParams.votes && this.rewards) {
-    return `
+      return `
     function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
@@ -60,9 +66,9 @@ export class MainComponent {
       } else {
           _delegate(account, address(0));
       }
-    }`
-  } else if (this.rewards) {
-    return `
+    }`;
+    } else if (this.rewards) {
+      return `
     function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
@@ -80,9 +86,9 @@ export class MainComponent {
       emit rewardsTransferred(from, to, rewardAmount);
 
       return true;
-    }`
-  } else if (this.staking) {
-    return `
+    }`;
+    } else if (this.staking) {
+      return `
     function transfer(address to, uint256 amount) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
@@ -100,13 +106,13 @@ export class MainComponent {
       } else {
           _delegate(account, address(0));
       }
-    }`
-  } else{ 
-        return `
+    }`;
+    } else {
+      return `
     function transfer(address to, uint256 amount) public {
       _transfer(msg.sender, to, amount);
     }`;
-  }
+    }
   }
 
   generateRewardsEvent(): string {
@@ -115,9 +121,10 @@ export class MainComponent {
   }
 
   generateRewardMultiplier(): string {
-    return this.rewards ? `
-    uint256 public constant REWARD_MULTIPLIER = ${this.rewardMultiplier};` : 
-    ``;
+    return this.rewards
+      ? `
+    uint256 public constant REWARD_MULTIPLIER = ${this.rewardMultiplier};`
+      : ``;
   }
 
   generateStakingMapping(): string {
@@ -168,21 +175,31 @@ export class MainComponent {
   }
 
   generateContract(): string {
-    if (this.contractParams.votes === false) this.staking = false
-    if (this.staking) this.contractParams.votes = true
+    if (this.contractParams.votes === false) this.staking = false;
+    if (this.staking) this.contractParams.votes = true;
 
     const contract: string = erc20.print(this.contractParams as ERC20Options);
 
     const lastCurlyBraceIndex: number = contract.lastIndexOf('}');
-    const modifiedContract: string =
-      contract.slice(0, lastCurlyBraceIndex) +
-      this.generateRewardMultiplier() +
-      '\n' +
-      this.generateTransferFunction() +
-      '\n' +
-      this.generateRewardsEvent() +
-      '\n' +
-      contract.slice(lastCurlyBraceIndex);
+    let modifiedContract: string = '';
+
+    if (this.rewards) {
+      modifiedContract =
+        contract.slice(0, lastCurlyBraceIndex) +
+        this.generateRewardMultiplier() +
+        '\n' +
+        this.generateRewardsEvent() +
+        '\n' +
+        this.generateTransferFunction() +
+        '\n' +
+        contract.slice(lastCurlyBraceIndex);
+    } else {
+      modifiedContract =
+        contract.slice(0, lastCurlyBraceIndex) +
+        this.generateTransferFunction() +
+        '\n' +
+        contract.slice(lastCurlyBraceIndex);
+    }
 
     const finalContract: string = modifiedContract.replace(
       '/// @custom:oz-upgrades-unsafe-allow constructor',
@@ -233,5 +250,15 @@ export class MainComponent {
 
     this.contract = finalContract;
     return finalContract;
+  }
+
+  async deploy() {
+    const res = await this.deploygtService.deployERC721({
+      name: this.contractParams.name,
+      symbol: this.contractParams.symbol,
+      contract: this.contract,
+    });
+
+    this.contractAddress = res;
   }
 }

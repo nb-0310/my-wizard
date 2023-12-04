@@ -3,6 +3,7 @@
     <div class="flex items-center gap-2">
       <button
         class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        (click)="goToHome()"
       >
         ERC20 GT
       </button>
@@ -22,12 +23,14 @@
 
       <button
         class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/erc20"
       >
         ERC20
       </button>
 
       <button
         class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/governor"
       >
         Governor
       </button>

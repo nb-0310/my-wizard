@@ -9,7 +9,8 @@
       </button>
 
       <button
-        class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
+        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/erc721"
       >
         ERC721
       </button>
@@ -22,7 +23,7 @@
       </button>
 
       <button
-        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
         routerLink="/erc20"
       >
         ERC20
@@ -45,7 +46,7 @@
       </button>
 
       <button
-      *ngIf="contractAddress===''"
+        *ngIf="contractAddress === ''"
         class="rounded-lg px-4 py-2 text-white font-bold bg-blue-600"
         (click)="deploy()"
       >
@@ -80,13 +81,13 @@
             (ngModelChange)="generateContract()"
           />
 
-          <label for="baseUri" class="text-xs">Base URI</label>
+          <label for="baseUri" class="text-xs">Premint</label>
           <input
             type="text"
             class="border border-black block rounded placeholder:text-sm"
-            [(ngModel)]="contractParams.baseUri"
+            [(ngModel)]="contractParams.premint"
             (ngModelChange)="generateContract()"
-            placeholder="QmP2HEzR4WtyhXHF5otzmi63HwnEsJM4ftWSApF6MEFBiq"
+            placeholder="10"
           />
         </div>
       </div>
@@ -102,15 +103,6 @@
               (ngModelChange)="generateContract()"
             />
             <label for="mintable">Mintable</label>
-          </div>
-
-          <div class="flex items-center gap-4">
-            <input
-              type="checkbox"
-              [(ngModel)]="contractParams.incremental"
-              (ngModelChange)="generateContract()"
-            />
-            <label for="mintable">Incremental</label>
           </div>
 
           <div class="flex items-center gap-4">
@@ -134,10 +126,19 @@
           <div class="flex items-center gap-4">
             <input
               type="checkbox"
-              [(ngModel)]="contractParams.uriStorage"
+              [(ngModel)]="contractParams.permit"
               (ngModelChange)="generateContract()"
             />
-            <label for="votes">URI Storage</label>
+            <label for="votes">Permit</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
+              [(ngModel)]="contractParams.flashmint"
+              (ngModelChange)="generateContract()"
+            />
+            <label for="votes">Flash Minting</label>
           </div>
         </div>
       </div>

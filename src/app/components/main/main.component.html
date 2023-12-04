@@ -2,53 +2,60 @@
   <div class="w-full flex items-center justify-between mb-5">
     <div class="flex items-center gap-2">
       <button
-      class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
-      routerLink="/"
-    >
-      ERC20 GT
-    </button>
+        class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
+        routerLink="/"
+      >
+        ERC20 GT
+      </button>
 
-    <button
-      class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-      routerLink="/erc721"
-    >
-      ERC721
-    </button>
+      <button
+        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/erc721"
+      >
+        ERC721
+      </button>
 
-    <button
-      class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-      routerLink="/erc1155"
-    >
-      ERC1155
-    </button>
+      <button
+        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/erc1155"
+      >
+        ERC1155
+      </button>
 
-    <button
-      class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-    >
-      ERC20
-    </button>
+      <button
+        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/erc20"
+      >
+        ERC20
+      </button>
 
-    <button
-      class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-    >
-      Governor
-    </button>
+      <button
+        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
+        routerLink="/governor"
+      >
+        Governor
+      </button>
     </div>
 
     <div class="flex items-center gap-4">
       <button
-      class="border border-slate-300 rounded-lg px-4 py-2 text-slate-700 font-bold"
-      (click)="copyToClipboard()"
-    >
-      Copy to Clipboard
-    </button>
+        class="border border-slate-300 rounded-lg px-4 py-2 text-slate-700 font-bold"
+        (click)="copyToClipboard()"
+      >
+        Copy to Clipboard
+      </button>
 
-    <button
-      class="rounded-lg px-4 py-2 text-white font-bold bg-blue-600"
-      (click)="copyToClipboard()"
-    >
-      Create &amp; Deploy
-    </button>
+      <button
+        *ngIf="contractAddress === ''"
+        class="rounded-lg px-4 py-2 text-white font-bold bg-blue-600"
+        (click)="deploy()"
+      >
+        Create &amp; Deploy
+      </button>
+
+      <span *ngIf="contractAddress !== ''" class="text-xs text-blue-600">
+        Your contract has been deployed at address {{ contractAddress }}
+      </span>
     </div>
   </div>
 
@@ -226,7 +233,9 @@
         <div class="flex gap-3 items-center justify-between">
           <h3 class="mb-2 text-sm font-bold text-slate-600">Rewards</h3>
 
-          <button class="w-3 h-3 rounded-full bg-zinc-500 text-white text-xs">i</button>
+          <button class="w-3 h-3 rounded-full bg-zinc-500 text-white text-xs">
+            i
+          </button>
         </div>
 
         <div>
@@ -240,9 +249,7 @@
           </div>
 
           <div>
-            <label for="minStaking" class="text-xs"
-              >Rewards Multiplier</label
-            >
+            <label for="minStaking" class="text-xs">Rewards Multiplier</label>
             <input
               type="text"
               class="border border-black rounded"
@@ -283,7 +290,8 @@
 
     <div
       class="w-[75%] p-4 max-h-[80vh] bg-gray-800 rounded-xl overflow-y-scroll"
-    ><code class="text-gray-300">{{ contract }}</code>
+    >
+      <pre><code class="text-gray-300">{{ contract }}</code></pre>
     </div>
   </div>
 </div>
