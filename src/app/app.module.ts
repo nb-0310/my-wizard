@@ -6,12 +6,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MainComponent } from './components/main/main.component';
+import { Erc721Component } from './components/erc721/erc721.component';
+import { Erc1155Component } from './components/erc1155/erc1155.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    MainComponent
+    MainComponent,
+    Erc721Component,
+    Erc1155Component
   ],
   imports: [
     BrowserModule,

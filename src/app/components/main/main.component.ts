@@ -33,7 +33,8 @@ export class MainComponent {
 
   generateTransferFunction(): string {
     if (this.contractParams.votes && this.rewards) {
-    return `function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
+    return `
+    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -57,7 +58,7 @@ export class MainComponent {
       if (stakingBalance[account] >= VOTING_THRESHOLD) {
           _delegate(account, account);
       } else {
-          _delegate(account, myAddr);
+          _delegate(account, address(0));
       }
     }`
   } else if (this.rewards) {
@@ -70,7 +71,6 @@ export class MainComponent {
 
       address from = msg.sender;
       _transfer(from, to, amount);
-      updateDelegate(to);
 
       ERC20 utilityToken = ERC20(utAddr);
       uint256 rewardAmount = amount / REWARD_MULTIPLIER;
@@ -81,8 +81,27 @@ export class MainComponent {
 
       return true;
     }`
-  }
-      else{ 
+  } else if (this.staking) {
+    return `
+    function transfer(address to, uint256 amount) public returns (bool) {
+      require(
+        amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
+        "Insufficient Balance or your balance is staked."
+      );
+
+      address from = msg.sender;
+      _transfer(from, to, amount);
+      updateDelegate(to);
+    }
+
+    function updateDelegate(address account) internal {
+      if (stakingBalance[account] >= VOTING_THRESHOLD) {
+          _delegate(account, account);
+      } else {
+          _delegate(account, address(0));
+      }
+    }`
+  } else{ 
         return `
     function transfer(address to, uint256 amount) public {
       _transfer(msg.sender, to, amount);
@@ -149,6 +168,9 @@ export class MainComponent {
   }
 
   generateContract(): string {
+    if (this.contractParams.votes === false) this.staking = false
+    if (this.staking) this.contractParams.votes = true
+
     const contract: string = erc20.print(this.contractParams as ERC20Options);
 
     const lastCurlyBraceIndex: number = contract.lastIndexOf('}');
