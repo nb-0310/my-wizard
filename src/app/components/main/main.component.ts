@@ -14,6 +14,7 @@ export class MainComponent {
   minStakingDuration: string = '2 days';
   rewardMultiplier: number = 5; // Default reward multiplier
   rewards: boolean = false;
+  votingThreshold: number = 10;
 
   contractParams: ERC20Options = {
     name: 'ExampleToken',
@@ -31,9 +32,8 @@ export class MainComponent {
   }
 
   generateTransferFunction(): string {
-    return this.contractParams.votes
-      ? `
-    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
+    if (this.contractParams.votes && this.rewards) {
+    return `function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -60,10 +60,34 @@ export class MainComponent {
           _delegate(account, myAddr);
       }
     }`
-      : `
+  } else if (this.rewards) {
+    return `
+    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
+      require(
+        amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
+        "Insufficient Balance or your balance is staked."
+      );
+
+      address from = msg.sender;
+      _transfer(from, to, amount);
+      updateDelegate(to);
+
+      ERC20 utilityToken = ERC20(utAddr);
+      uint256 rewardAmount = amount / REWARD_MULTIPLIER;
+
+      utilityToken.transferFrom(from, to, rewardAmount);
+
+      emit rewardsTransferred(from, to, rewardAmount);
+
+      return true;
+    }`
+  }
+      else{ 
+        return `
     function transfer(address to, uint256 amount) public {
       _transfer(msg.sender, to, amount);
     }`;
+  }
   }
 
   generateRewardsEvent(): string {
@@ -82,6 +106,7 @@ export class MainComponent {
     mapping(address => uint256) private stakingBalance;
     mapping(address => uint256) private stakingTimestamp;
     uint256 public constant MIN_STAKING_DURATION = ${this.minStakingDuration};
+    uint256 public constant VOTING_THRESHOLD = ${this.votingThreshold};
     `;
   }
 

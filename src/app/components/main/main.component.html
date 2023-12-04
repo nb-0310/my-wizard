@@ -168,6 +168,19 @@
               (ngModelChange)="generateContract()"
             />
           </div>
+
+          <div>
+            <label for="minStaking" class="text-xs"
+              >Minimum Voting Threshold</label
+            >
+            <input
+              type="text"
+              class="border border-black rounded"
+              placeholder="2 days"
+              [(ngModel)]="votingThreshold"
+              (ngModelChange)="generateContract()"
+            />
+          </div>
         </div>
       </div>
 
