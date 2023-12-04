@@ -33,7 +33,7 @@ export class MainComponent {
   generateTransferFunction(): string {
     return this.contractParams.votes
       ? `
-    function transfer(address to, uint256 amount) public returns (bool) {
+    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -43,8 +43,10 @@ export class MainComponent {
       _transfer(from, to, amount);
       updateDelegate(to);
 
+      ERC20 utilityToken = ERC20(utAddr);
       uint256 rewardAmount = amount / REWARD_MULTIPLIER;
-      // Your reward distribution logic here
+
+      utilityToken.transferFrom(from, to, rewardAmount);
 
       emit rewardsTransferred(from, to, rewardAmount);
 
@@ -118,7 +120,7 @@ export class MainComponent {
         stakingTimestamp[msg.sender] = block.timestamp; // Set staking timestamp
         updateDelegate(msg.sender);
     }
-    `;
+  }`;
   }
 
   generateContract(): string {
