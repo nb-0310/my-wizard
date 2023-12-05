@@ -260,32 +260,6 @@
           </div>
         </div>
       </div>
-
-      <div class="py-2 border-b-2 border-slate-200">
-        <h3 class="mb-2 text-sm font-bold text-slate-600">Upgradeability</h3>
-
-        <div class="flex items-center gap-4">
-          <input
-            type="radio"
-            [(ngModel)]="contractParams.upgradeable"
-            (change)="generateContract()"
-            value="'transparent'"
-            name="upgradeable"
-          />
-          <label for="transparent">Transparent</label>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <input
-            type="radio"
-            [(ngModel)]="contractParams.upgradeable"
-            (change)="generateContract()"
-            value="'uups'"
-            name="upgradeable"
-          />
-          <label for="uups">UUPS</label>
-        </div>
-      </div>
     </div>
 
     <div

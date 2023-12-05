@@ -69,14 +69,20 @@ export class Erc1155Component {
   }
 
   async deploy() {
+    this.deployerc1155Service.contractParams = this.contractParams
+    const params = {
+      name: this.contractParams.name,
+      uri: this.contractParams.uri,
+      contract: this.contract
+    }
     const res = await this.deployerc1155Service.deployERC721(
-      this.contractParams
+      params
     );
 
     this.contractAddress = res;
   }
 
   goToHome() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/main');
   }
 }

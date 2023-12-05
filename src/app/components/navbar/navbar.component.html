@@ -1,13 +1,33 @@
 <div class="flex justify-between items-center px-20 py-8 w-[100%]">
   <div class="flex gap-5 items-center">
-    <div class="p-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">HOLACRACY</div>
-    <button class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg">Solidity Wizard</button>
+    <div class="p-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">
+      HOLACRACY
+    </div>
+    <button *ngIf="!this.signer" class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg" (click)="getSigner()">
+      Connect Wallet
+    </button>
+
+    <button *ngIf="this.signer" class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg">
+      Signer
+    </button>
   </div>
 
   <div class="flex items-center gap-4">
-    <button><a href="https://forum.openzeppelin.com/" target="_blank">Forum</a></button>
-    <button><a href="https://docs.openzeppelin.com/" target="_blank">Docs</a></button>
-    <button><a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank">Github</a></button>
-    <button><a href="https://twitter.com/OpenZeppelin" target="_blank">Twitter</a></button>
+    <button>
+      <a href="https://forum.openzeppelin.com/" target="_blank">Forum</a>
+    </button>
+    <button>
+      <a href="https://docs.openzeppelin.com/" target="_blank">Docs</a>
+    </button>
+    <button>
+      <a
+        href="https://github.com/OpenZeppelin/openzeppelin-contracts"
+        target="_blank"
+        >Github</a
+      >
+    </button>
+    <button>
+      <a href="https://twitter.com/OpenZeppelin" target="_blank">Twitter</a>
+    </button>
   </div>
 </div>

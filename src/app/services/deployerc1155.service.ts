@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { ethers } from 'ethers';
+import { SignService } from './sign.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Deployerc1155Service {
+  contractParams: any;
   private apiUrl = 'http://localhost:3000/create-erc1155-contract'; // Replace with your actual API endpoint
 
-  constructor() {}
+  constructor(public signService: SignService) {}
 
   async getAbi(params: any): Promise<{ abi: string; bytecode: string }> {
     try {
@@ -32,21 +34,24 @@ export class Deployerc1155Service {
     const abi = res.abi;
     const bytecode = res.bytecode;
 
-    const provider = new ethers.providers.JsonRpcProvider(
-      'https://goerli.infura.io/v3/c443bf71cccd48338a6826b337a658ca'
-    );
-
-    const signer = new ethers.Wallet(
-      '0513d443d9ba9f9db2ef69df02a101e1c1152dd63afdbde3ff8ac4fca0b778f2',
-      provider
-    );
+    const signer = await this.signService.getSigner();
 
     if (abi && bytecode) {
       const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
 
-      const contract = await contractFactory.deploy(
-        '0x000e063943E9E8574EF5De947ea00Fb6Ca01B04F'
-      );
+      let contract;
+      let addr = await signer.getAddress();
+
+      if (
+        this.contractParams.access ||
+        this.contractParams.mintable ||
+        this.contractParams.pausable || 
+        this.contractParams.updatableUri
+      ) {
+        contract = await contractFactory.deploy(addr);
+      } else {
+        contract = await contractFactory.deploy();
+      }
 
       await contract.deployed();
 

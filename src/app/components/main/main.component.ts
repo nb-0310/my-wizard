@@ -253,6 +253,7 @@ export class MainComponent {
   }
 
   async deploy() {
+    this.deploygtService.contractParams = this.contractParams
     const res = await this.deploygtService.deployERC721({
       name: this.contractParams.name,
       symbol: this.contractParams.symbol,

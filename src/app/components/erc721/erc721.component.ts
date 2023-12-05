@@ -40,10 +40,17 @@ export class Erc721Component {
   }
 
   generateTransferFunction(): string {
-    return `
-    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
-      _transfer(from, to, tokenId);
-    }`;
+    if (this.contractParams.uriStorage) {
+      return `
+      function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
+        _transfer(from, to, tokenId);
+      }`;
+    } else {
+      return `
+      function transferFrom(address from, address to, uint256 tokenId) public override(ERC721) {
+        _transfer(from, to, tokenId);
+      }`;
+    }
   }
 
   generateContract(): string {
@@ -67,14 +74,20 @@ export class Erc721Component {
   }
 
   async deploy() {
+    this.deployerc721Service.contractParams = this.contractParams
+    const params = {
+      name: this.contractParams.name,
+      symbol: this.contractParams.symbol,
+      contract: this.contract
+    }
     const res = await this.deployerc721Service.deployERC721(
-      this.contractParams
+      params
     );
 
     this.contractAddress = res;
   }
 
   goToHome() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/main');
   }
 }

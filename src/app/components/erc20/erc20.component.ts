@@ -41,12 +41,14 @@ export class Erc20Component {
 
   generateTransferFunction(): string {
     return `
-    function transfer(address to, uint256 amount) public {
-        _transfer(msg.sender, to, amount);
+    function transfer(address to, uint256 amount) public override returns(bool) {
+      _transfer(msg.sender, to, amount);
+      return true;
     }`;
   }
 
   generateContract(): string {
+    console.log(this.contractParams)
     const contract: string = erc20.print(this.contractParams as ERC20Options);
 
     const lastCurlyBraceIndex: number = contract.lastIndexOf('}');
@@ -67,12 +69,20 @@ export class Erc20Component {
   }
 
   async deploy() {
-    const res = await this.deployerc20Service.deployERC721(this.contractParams);
+    const params = {
+      name: this.contractParams.name,
+      symbol: this.contractParams.symbol,
+      contract: this.contract
+    }
+
+    console.log(params)
+
+    const res = await this.deployerc20Service.deployERC721(params);
 
     this.contractAddress = res;
   }
 
   goToHome() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/main');
   }
 }
