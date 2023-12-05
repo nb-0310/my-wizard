@@ -9,7 +9,7 @@ import { SignService } from './sign.service';
 
 export class Deployerc20Service {
   contractParams: any;
-  private apiUrl = 'http://localhost:3000/create-erc20-contract'; // Replace with your actual API endpoint
+  private apiUrl = 'http://localhost:5000/create-erc20-contract'; // Replace with your actual API endpoint
 
   constructor(public signService: SignService) {}
 
@@ -38,22 +38,26 @@ export class Deployerc20Service {
     const signer = await this.signService.getSigner()
 
     if (abi && bytecode) {
+      
       const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
-
+      
       let contract
-      const addr = await signer.getAddress()
-
+      const addr = await signer.getAddress();
+      console.log('ABI', abi, bytecode, signer,addr );
       if (
         this.contractParams.access ||
         this.contractParams.mintable ||
         this.contractParams.pausable
       ) {
-        contract = await contractFactory.deploy(addr);
+        contract = await contractFactory.deploy(addr, { gasLimit: 5000000 });
       } else {
-        contract = await contractFactory.deploy();
+        contract = await contractFactory.deploy({ gasLimit: 5000000 });
       }
 
-      await contract.deployed();
+      console.log(contract.address);
+      
+
+      // await contract.deployed();
 
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);
