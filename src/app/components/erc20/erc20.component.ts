@@ -69,6 +69,7 @@ export class Erc20Component {
   }
 
   async deploy() {
+    this.deployerc20Service.contractParams = this.contractParams
     const params = {
       name: this.contractParams.name,
       symbol: this.contractParams.symbol,
