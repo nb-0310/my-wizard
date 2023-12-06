@@ -1,6 +1,7 @@
 export const environment = {
-    production: false,
-    apiUrl: 'http://localhost:3000/api',
-    privateKey:"0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3",
-    RpcUrl:"http://localhost:8545"
-  };
+  production: false,
+  apiUrl: 'http://localhost:3000/api',
+  privateKey:
+    '0513d443d9ba9f9db2ef69df02a101e1c1152dd63afdbde3ff8ac4fca0b778f2',
+  RpcUrl: 'https://goerli.infura.io/v3/040153c0048b43b190d3ee87e7ede59b',
+};
