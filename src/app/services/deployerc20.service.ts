@@ -9,7 +9,7 @@ import { SignService } from './sign.service';
 
 export class Deployerc20Service {
   contractParams: any;
-  private apiUrl = 'https://scaas-compiler.vercel.app/create-erc20-contract';
+  private apiUrl = 'http://localhost:5000/create-erc20-contract';
 
   constructor(public signService: SignService) {}
 

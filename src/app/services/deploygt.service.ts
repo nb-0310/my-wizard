@@ -7,7 +7,7 @@ import { SignService } from './sign.service';
   providedIn: 'root',
 })
 export class DeploygtService {
-  private apiUrl = 'https://scaas-compiler.vercel.app/create-gt-contract';
+  private apiUrl = 'http://localhost:5000/create-gt-contract';
   contractParams: any;
 
   constructor(public signService: SignService) {}

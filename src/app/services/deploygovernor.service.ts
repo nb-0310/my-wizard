@@ -8,7 +8,7 @@ import { SignService } from './sign.service';
 })
 export class DeploygovernorService {
   contractParams: any;
-  private apiUrl = 'https://scaas-compiler.vercel.app/create-governor-contract';
+  private apiUrl = 'http://localhost:5000/create-governor-contract';
 
   constructor(public signService: SignService) {}
 
