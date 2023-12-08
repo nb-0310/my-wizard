@@ -1,15 +1,39 @@
-<button (click)="getContract()">Check</button>
+<!-- use-contract.component.html -->
 
-<div *ngFor="let func of currentContractService.abi">
-  <div *ngIf="func.type === 'function'">
-    <button>{{ func.name }}</button>
-    <ng-container *ngIf="func.inputs && func.inputs.length > 0">
-      <input
-        *ngFor="let input of func.inputs"
-        [(ngModel)]="input.value"
-        placeholder="{{ input.name }}"
-      />
-    </ng-container>
-    <br />
+<div class="p-4 bg-gray-100 rounded-md shadow-md">
+  <button
+    class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
+    (click)="getContract()"
+  >
+    Check
+  </button>
+
+  <div *ngIf="contract">
+    <div *ngFor="let func of currentContractService.abi" class="mb-4">
+      <div *ngIf="func.type === 'function'" class="flex items-center space-x-2">
+        <button
+          class="bg-green-500 text-white py-2 px-4 rounded-md"
+          (click)="executeFunction(func)"
+        >
+          {{ func.name }}
+        </button>
+
+        <ng-container *ngIf="func.inputs && func.inputs.length > 0">
+          <div class="flex gap-2 flex-wrap">
+            <input
+              *ngFor="let input of func.inputs"
+              [(ngModel)]="input.value"
+              placeholder="{{ input.name }}"
+              class="border border-gray-300 rounded-md p-2"
+            />
+          </div>
+        </ng-container>
+
+        <!-- Display the result only if it exists for the specific function -->
+        <div *ngIf="functionResults[func.name]" class="ml-4">
+          <strong>Result:</strong> {{ functionResults[func.name] }}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

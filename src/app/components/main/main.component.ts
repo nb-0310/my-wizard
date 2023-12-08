@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { erc20 } from '@openzeppelin/wizard';
 import { ERC20Options } from '@openzeppelin/wizard/dist/erc20';
 import { ClipboardService } from 'ngx-clipboard';
@@ -26,7 +27,8 @@ export class MainComponent {
 
   constructor(
     private clipboardService: ClipboardService,
-    public deploygtService: DeploygtService
+    public deploygtService: DeploygtService,
+    public router: Router
   ) {}
 
   copyToClipboard(): void {
@@ -40,7 +42,7 @@ export class MainComponent {
   generateTransferFunction(): string {
     if (this.contractParams.votes && this.rewards) {
       return `
-    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
+    function transfer(address to, uint256 amount, address utAddr) public override returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -69,7 +71,7 @@ export class MainComponent {
     }`;
     } else if (this.rewards) {
       return `
-    function transfer(address to, uint256 amount, address utAddr) public returns (bool) {
+    function transfer(address to, uint256 amount, address utAddr) public override returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -89,7 +91,7 @@ export class MainComponent {
     }`;
     } else if (this.staking) {
       return `
-    function transfer(address to, uint256 amount) public returns (bool) {
+    function transfer(address to, uint256 amount) public override returns (bool) {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -98,6 +100,7 @@ export class MainComponent {
       address from = msg.sender;
       _transfer(from, to, amount);
       updateDelegate(to);
+      return true;
     }
 
     function updateDelegate(address account) internal {
@@ -109,8 +112,9 @@ export class MainComponent {
     }`;
     } else {
       return `
-    function transfer(address to, uint256 amount) public {
+    function transfer(address to, uint256 amount) public override returns(bool) {
       _transfer(msg.sender, to, amount);
+      return true;
     }`;
     }
   }
@@ -224,8 +228,8 @@ export class MainComponent {
         contract.slice(lastCurlyBraceIndex);
 
       let updatedTransfer = fnStakingContract.replace(
-        'function transfer(address to, uint256 amount) public {',
-        `function transfer(address to, uint256 amount) public returns (bool) {
+        'function transfer(address to, uint256 amount) public override {',
+        `function transfer(address to, uint256 amount) public override returns (bool) {
           require(
               amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
               "Insufficient Balance or your balance is staked."
@@ -261,5 +265,7 @@ export class MainComponent {
     });
 
     this.contractAddress = res;
+
+    this.router.navigateByUrl('/use-contract');
   }
 }

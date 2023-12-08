@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { SignService } from './sign.service';
+import { CurrentContractService } from './current-contract.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class DeploygtService {
   private apiUrl = 'http://localhost:5000/create-gt-contract';
   contractParams: any;
 
-  constructor(public signService: SignService) {}
+  constructor(public signService: SignService, public currentContractService: CurrentContractService) {}
 
   async getAbi(params: any): Promise<{ abi: string; bytecode: string }> {
     try {
@@ -56,6 +57,9 @@ export class DeploygtService {
 
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);
+
+      this.currentContractService.setAddress(contractAddress);
+      this.currentContractService.abi = abi
 
       return contractAddress;
     }
