@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { SignService } from './sign.service';
+import { CurrentContractService } from './current-contract.service';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class Deployerc20Service {
   contractParams: any;
   private apiUrl = 'http://localhost:5000/create-erc20-contract';
 
-  constructor(public signService: SignService) {}
+  constructor(
+    public signService: SignService,
+    public currentContractService: CurrentContractService
+  ) { }
 
   async getAbi(params: any): Promise<{ abi: string; bytecode: string }> {
     try {
@@ -35,15 +38,14 @@ export class Deployerc20Service {
     const abi = res.abi;
     const bytecode = res.bytecode;
 
-    const signer = await this.signService.getSigner()
+    const signer = await this.signService.getSigner();
 
     if (abi && bytecode) {
-      
       const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
-      
-      let contract
+
+      let contract;
       const addr = await signer.getAddress();
-      console.log('ABI', abi, bytecode, signer,addr );
+      console.log('ABI', abi, bytecode, signer, addr);
       if (
         this.contractParams.access ||
         this.contractParams.mintable ||
@@ -54,13 +56,11 @@ export class Deployerc20Service {
         contract = await contractFactory.deploy({ gasLimit: 5000000 });
       }
 
-      console.log(contract.address);
-      
-
-      // await contract.deployed();
-
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);
+
+      this.currentContractService.setAddress(contractAddress);
+      this.currentContractService.abi = abi
 
       return contractAddress;
     }

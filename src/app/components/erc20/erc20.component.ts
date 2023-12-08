@@ -76,11 +76,9 @@ export class Erc20Component {
       contract: this.contract
     }
 
-    console.log(params)
-
     const res = await this.deployerc20Service.deployERC721(params);
-
     this.contractAddress = res;
+    this.router.navigateByUrl('/use-contract');
   }
 
   goToHome() {

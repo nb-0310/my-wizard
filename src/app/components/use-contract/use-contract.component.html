@@ -1,0 +1,15 @@
+<button (click)="getContract()">Check</button>
+
+<div *ngFor="let func of currentContractService.abi">
+  <div *ngIf="func.type === 'function'">
+    <button>{{ func.name }}</button>
+    <ng-container *ngIf="func.inputs && func.inputs.length > 0">
+      <input
+        *ngFor="let input of func.inputs"
+        [(ngModel)]="input.value"
+        placeholder="{{ input.name }}"
+      />
+    </ng-container>
+    <br />
+  </div>
+</div>

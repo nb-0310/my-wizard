@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   signer: any;
+  address: string = ''
 
   constructor(public signService: SignService, public router: Router) {}
 
   async getSigner() {
     this.signer = await this.signService.getSigner();
     this.router.navigateByUrl('/main');
+    this.address = await this.signer.getAddress()
     return this.signer;
   }
 }

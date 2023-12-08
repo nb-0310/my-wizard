@@ -11,6 +11,7 @@ import { Erc1155Component } from './components/erc1155/erc1155.component';
 import { Erc20Component } from './components/erc20/erc20.component';
 import { GovernorComponent } from './components/governor/governor.component';
 import { SignComponent } from './components/sign/sign.component';
+import { UseContractComponent } from './components/use-contract/use-contract.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SignComponent } from './components/sign/sign.component';
     Erc20Component,
     GovernorComponent,
     SignComponent,
+    UseContractComponent,
   ],
   imports: [
     BrowserModule,
