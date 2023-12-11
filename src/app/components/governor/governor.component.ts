@@ -3,6 +3,7 @@ import { governor } from '@openzeppelin/wizard';
 import { GovernorOptions } from '@openzeppelin/wizard/dist/governor';
 import { DeploygovernorService } from '../../services/deploygovernor.service';
 import { Router } from '@angular/router';
+import { Erc20RewardService } from '../../services/erc20-reward.service';
 
 @Component({
   selector: 'app-governor',
@@ -10,17 +11,21 @@ import { Router } from '@angular/router';
   styleUrl: './governor.component.css',
 })
 export class GovernorComponent {
-  contractAddress: string = ''
+  contractAddress: string = '';
   contract: string = '';
   contractParams: GovernorOptions = {
     name: 'MyGovernor',
     delay: '0 days',
     period: '1 week',
-    timelock: false
+    timelock: false,
   };
-  tokenAddr: string = ''
+  tokenAddr: string = '';
 
-  constructor(public deploygovernorService: DeploygovernorService, public router: Router) {}
+  constructor(
+    public deploygovernorService: DeploygovernorService,
+    public router: Router,
+    public erc20RewardService: Erc20RewardService
+  ) {}
 
   ngOnInit(): void {
     this.generateContract();
@@ -35,7 +40,7 @@ export class GovernorComponent {
         this.contractParams.quorumPercent
       );
 
-    console.log(this.contractParams)
+    console.log(this.contractParams);
 
     const contract = governor.print(this.contractParams);
     this.contract = contract;
@@ -44,14 +49,17 @@ export class GovernorComponent {
   async deploy() {
     const params = {
       name: this.contractParams.name,
-      contract: this.contract
-    }
+      contract: this.contract,
+    };
     const res = await this.deploygovernorService.deployGovernor(
-      params, this.tokenAddr
+      params,
+      this.tokenAddr
     );
 
-    this.contractAddress = res
+    this.contractAddress = res;
 
-    this.router.navigateByUrl('/use-contract')
+    this.erc20RewardService.gt = false
+
+    this.router.navigateByUrl('/use-contract');
   }
 }

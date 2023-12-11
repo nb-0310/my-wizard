@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ethers } from 'ethers';
 import { CurrentContractService } from '../../services/current-contract.service';
 import { SignService } from '../../services/sign.service';
+import { Erc20RewardService } from '../../services/erc20-reward.service';
 
 @Component({
   selector: 'app-use-contract',
@@ -21,7 +22,8 @@ export class UseContractComponent {
 
   constructor(
     public currentContractService: CurrentContractService,
-    public signService: SignService
+    public signService: SignService,
+    public erc20RewardService: Erc20RewardService
   ) {}
 
   ngOnInit(): void {

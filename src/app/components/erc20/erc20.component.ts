@@ -4,6 +4,7 @@ import { ERC20Options } from '@openzeppelin/wizard/dist/erc20';
 import { ClipboardService } from 'ngx-clipboard';
 import { Deployerc20Service } from '../../services/deployerc20.service';
 import { Router } from '@angular/router';
+import { Erc20RewardService } from '../../services/erc20-reward.service';
 
 @Component({
   selector: 'app-erc20',
@@ -14,7 +15,7 @@ export class Erc20Component {
   contract: string = '';
   staking: boolean = false;
   minStakingDuration: string = '2 days';
-  rewardMultiplier: number = 5; // Default reward multiplier
+  rewardMultiplier: number = 5;
   rewards: boolean = false;
   votingThreshold: number = 10;
 
@@ -23,17 +24,13 @@ export class Erc20Component {
     symbol: 'ETK',
   };
 
-  options = {
-    theme: 'vs-dark', // You can change this theme
-    language: 'sol', // Set the language to match your generated code
-  };
-
   contractAddress: string = '';
 
   constructor(
     private clipboardService: ClipboardService,
     public deployerc20Service: Deployerc20Service,
     public router: Router,
+    public erc20RewardService: Erc20RewardService
   ) {}
 
   copyToClipboard(): void {
@@ -45,14 +42,21 @@ export class Erc20Component {
   }
 
   generateTransferFunction(): string {
-    return `
+    return this.rewards ? 
+    `
     function transferFrom(address from, address to, uint256 amount) public override returns(bool) {
       approve(from, amount);
       _transfer(from, to, amount);
 
       return true;
     }
-
+    
+    function transfer(address to, uint256 amount) public override returns(bool) {
+      _transfer(msg.sender, to, amount);
+      return true;
+    }`
+    : 
+    `
     function transfer(address to, uint256 amount) public override returns(bool) {
       _transfer(msg.sender, to, amount);
       return true;
@@ -89,6 +93,8 @@ export class Erc20Component {
     });
 
     this.contractAddress = res;
+
+    this.erc20RewardService.gt = false
 
     this.router.navigateByUrl('/use-contract');
   }

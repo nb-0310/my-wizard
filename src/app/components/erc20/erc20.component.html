@@ -135,6 +135,16 @@
           <div class="flex items-center gap-4">
             <input
               type="checkbox"
+              [(ngModel)]="rewards"
+              (ngModelChange)="generateContract()"
+              id="rewards"
+            />
+            <label for="rewards">Rewards</label>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <input
+              type="checkbox"
               [(ngModel)]="contractParams.flashmint"
               (ngModelChange)="generateContract()"
             />

@@ -1,15 +1,13 @@
-<!-- use-contract.component.html -->
-
 <div class="p-4 bg-gray-100 rounded-md shadow-md">
   <div class="flex w-full px-4 py-2 items-center justify-between">
     <button
-    class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
-    (click)="getContract()"
-  >
-    Check
-  </button>
+      class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
+      (click)="getContract()"
+    >
+      Check
+    </button>
 
-  <span class="text-blue-700 font-medium text-xl">{{contractAddress}}</span>
+    <span class="text-blue-700 font-medium text-xl">{{ contractAddress }}</span>
   </div>
 
   <div *ngIf="contract">
@@ -24,16 +22,27 @@
 
         <ng-container *ngIf="func.inputs && func.inputs.length > 0">
           <div class="flex gap-2 flex-wrap">
-            <input
-              *ngFor="let input of func.inputs"
-              [(ngModel)]="input.value"
-              placeholder="{{ input.name }}"
-              class="border border-gray-300 rounded-md p-2"
-            />
+            <ng-container *ngFor="let input of func.inputs">
+              <input
+                *ngIf="
+                  func.name === 'transfer' &&
+                  erc20RewardService.gt &&
+                  erc20RewardService.erc20ContractAddress !== '' &&
+                  input.name === 'utAddr'
+                "
+                value="{{ erc20RewardService.erc20ContractAddress }}"
+                [(ngModel)]="erc20RewardService.erc20ContractAddress"
+              />
+              <input
+                *ngIf=""
+                [(ngModel)]="input.value"
+                placeholder="{{ input.name }}"
+                class="border border-gray-300 rounded-md p-2"
+              />
+            </ng-container>
           </div>
         </ng-container>
 
-        <!-- Display the result only if it exists for the specific function -->
         <div *ngIf="functionResults[func.name]" class="ml-4">
           <strong>Result:</strong> {{ functionResults[func.name] }}
         </div>

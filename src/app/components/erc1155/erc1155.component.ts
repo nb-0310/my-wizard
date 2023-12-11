@@ -4,6 +4,7 @@ import { ERC1155Options } from '@openzeppelin/wizard/dist/erc1155';
 import { ClipboardService } from 'ngx-clipboard';
 import { Deployerc1155Service } from '../../services/deployerc1155.service';
 import { Router } from '@angular/router';
+import { Erc20RewardService } from '../../services/erc20-reward.service';
 
 @Component({
   selector: 'app-erc1155',
@@ -28,7 +29,8 @@ export class Erc1155Component {
   constructor(
     private clipboardService: ClipboardService,
     public deployerc1155Service: Deployerc1155Service,
-    public router: Router
+    public router: Router,
+    public erc20RewardService: Erc20RewardService
   ) {}
 
   copyToClipboard(): void {
@@ -80,6 +82,8 @@ export class Erc1155Component {
     );
 
     this.contractAddress = res;
+
+    this.erc20RewardService.gt = false
 
     this.router.navigateByUrl('/use-contract')
   }
