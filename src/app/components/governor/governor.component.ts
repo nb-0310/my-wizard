@@ -4,6 +4,7 @@ import { GovernorOptions } from '@openzeppelin/wizard/dist/governor';
 import { DeploygovernorService } from '../../services/deploygovernor.service';
 import { Router } from '@angular/router';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-governor',
@@ -24,11 +25,16 @@ export class GovernorComponent {
   constructor(
     public deploygovernorService: DeploygovernorService,
     public router: Router,
-    public erc20RewardService: Erc20RewardService
+    public erc20RewardService: Erc20RewardService,
+    public clipboardService: ClipboardService
   ) {}
 
   ngOnInit(): void {
     this.generateContract();
+  }
+
+  copyToClipboard(): void {
+    this.clipboardService.copyFromContent(this.contract);
   }
 
   generateContract() {

@@ -3,12 +3,20 @@
     <div class="p-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">
       HOLACRACY
     </div>
-    <button *ngIf="!this.signer" class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg" (click)="getSigner()">
+    <button
+      *ngIf="!this.signer"
+      class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
+      (click)="getSigner()"
+    >
       Connect Wallet
     </button>
 
-    <button *ngIf="this.signer" class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg">
-      {{address.slice(0, 10)}}...
+    <button
+      *ngIf="this.signer"
+      class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
+      (click)="copyToClipboard()"
+    >
+      {{ address.slice(0, 10) }}...
     </button>
   </div>
 

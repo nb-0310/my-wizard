@@ -101,6 +101,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.mintable"
               (ngModelChange)="generateContract()"
+              id="mintable"
             />
             <label for="mintable">Mintable</label>
           </div>
@@ -110,6 +111,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.burnable"
               (ngModelChange)="generateContract()"
+              id="burnable"
             />
             <label for="burnable">Burnable</label>
           </div>
@@ -119,6 +121,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.pausable"
               (ngModelChange)="generateContract()"
+              id="pausable"
             />
             <label for="pausable">Pausable</label>
           </div>
@@ -128,6 +131,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.permit"
               (ngModelChange)="generateContract()"
+              id="votes"
             />
             <label for="votes">Permit</label>
           </div>
@@ -147,8 +151,9 @@
               type="checkbox"
               [(ngModel)]="contractParams.flashmint"
               (ngModelChange)="generateContract()"
+              id="flashmint"
             />
-            <label for="votes">Flash Minting</label>
+            <label for="flashmint">Flash Minting</label>
           </div>
         </div>
       </div>
@@ -163,6 +168,7 @@
             (change)="generateContract()"
             [value]="'ownable'"
             name="accessType"
+            id="ownable"
           />
           <label for="ownable">Ownable</label>
         </div>
@@ -174,6 +180,7 @@
             (change)="generateContract()"
             [value]="'roles'"
             name="accessType"
+            id="roles"
           />
           <label for="roles">Roles</label>
         </div>
@@ -184,6 +191,7 @@
             [(ngModel)]="contractParams.access"
             (change)="generateContract()"
             [value]="'managed'"
+            id="managed"
             name="accessType"
           />
           <label for="managed">Managed</label>

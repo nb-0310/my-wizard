@@ -44,7 +44,7 @@ export class MainComponent {
   generateTransferFunction(): string {
     if (this.contractParams.votes && this.rewards) {
       return `
-    function transfer(address to, uint256 amount, address utAddr) public override returns (bool) {
+    function transfer(address to, uint256 amount, address utAddr) public {
       require(
         amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
         "Insufficient Balance or your balance is staked."
@@ -60,8 +60,6 @@ export class MainComponent {
       utilityToken.transferFrom(from, to, rewardAmount);
 
       emit rewardsTransferred(from, to, rewardAmount);
-
-      return true;
     }
     
     function updateDelegate(address account) internal {
@@ -224,7 +222,7 @@ export class MainComponent {
 
       let updatedTransfer = fnStakingContract.replace(
         'function transfer(address to, uint256 amount) public override {',
-        `function transfer(address to, uint256 amount) public override returns (bool) {
+        `function transfer(address to, uint256 amount) public {
           require(
               amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
               "Insufficient Balance or your balance is staked."

@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { CurrentContractService } from '../../services/current-contract.service';
 import { SignService } from '../../services/sign.service';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-use-contract',
@@ -23,8 +24,13 @@ export class UseContractComponent {
   constructor(
     public currentContractService: CurrentContractService,
     public signService: SignService,
-    public erc20RewardService: Erc20RewardService
+    public erc20RewardService: Erc20RewardService,
+    public clipboardService: ClipboardService
   ) {}
+
+  copyToClipboard(addr: any): void {
+    this.clipboardService.copyFromContent(addr);
+  }
 
   ngOnInit(): void {
     this.contractAddress = this.currentContractService.currentContractAddress;

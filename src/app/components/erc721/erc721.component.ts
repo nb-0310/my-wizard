@@ -44,14 +44,14 @@ export class Erc721Component {
   generateTransferFunction(): string {
     if (this.contractParams.uriStorage) {
       return `
-      function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
-        _transfer(from, to, tokenId);
-      }`;
+    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721, IERC721) {
+      _transfer(from, to, tokenId);
+    }`;
     } else {
       return `
-      function transferFrom(address from, address to, uint256 tokenId) public override(ERC721) {
-        _transfer(from, to, tokenId);
-      }`;
+    function transferFrom(address from, address to, uint256 tokenId) public override(ERC721) {
+      _transfer(from, to, tokenId);
+    }`;
     }
   }
 

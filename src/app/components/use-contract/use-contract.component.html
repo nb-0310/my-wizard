@@ -1,18 +1,30 @@
-<div class="p-4 bg-gray-100 rounded-md shadow-md">
-  <div class="flex w-full px-4 py-2 items-center justify-between">
-    <button
-      class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
-      (click)="getContract()"
+<div class="p-4 bg-gray-100 rounded-md">
+  <div class="shadow-md mb-5">
+    <div class="flex w-full px-4 py-2 items-center justify-between">
+      <button
+        class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
+        (click)="getContract()"
+      >
+        Check
+      </button>
+  
+      <span class="text-blue-400 font-medium text-xl">{{ contractAddress }}</span>
+    </div>
+  
+    <div
+      *ngIf="
+        erc20RewardService.gt && erc20RewardService.erc20ContractAddress !== ''
+      "
+      class="mb-3 text-sm px-4"
     >
-      Check
-    </button>
-
-    <span class="text-blue-700 font-medium text-xl">{{ contractAddress }}</span>
-  </div>
-
-  <div *ngIf="erc20RewardService.gt && erc20RewardService.erc20ContractAddress !== '' ">
-    ERC20 Token currently available for Reward Mechanism with this Governance Token:
-    {{erc20RewardService.erc20ContractAddress}}
+      ERC20 Token currently available for Reward Mechanism with this Governance
+      Token:
+      <span
+        class="text-blue-400 font-semibold cursor-pointer hover:text-blue-700"
+        (click)="copyToClipboard(erc20RewardService.erc20ContractAddress)"
+        >{{ erc20RewardService.erc20ContractAddress }}</span
+      >
+    </div>
   </div>
 
   <div *ngIf="contract">
