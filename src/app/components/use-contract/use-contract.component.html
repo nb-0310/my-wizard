@@ -10,6 +10,11 @@
     <span class="text-blue-700 font-medium text-xl">{{ contractAddress }}</span>
   </div>
 
+  <div *ngIf="erc20RewardService.gt && erc20RewardService.erc20ContractAddress !== '' ">
+    ERC20 Token currently available for Reward Mechanism with this Governance Token:
+    {{erc20RewardService.erc20ContractAddress}}
+  </div>
+
   <div *ngIf="contract">
     <div *ngFor="let func of currentContractService.abi" class="mb-4">
       <div *ngIf="func.type === 'function'" class="flex items-center space-x-2">
@@ -24,17 +29,6 @@
           <div class="flex gap-2 flex-wrap">
             <ng-container *ngFor="let input of func.inputs">
               <input
-                *ngIf="
-                  func.name === 'transfer' &&
-                  erc20RewardService.gt &&
-                  erc20RewardService.erc20ContractAddress !== '' &&
-                  input.name === 'utAddr'
-                "
-                value="{{ erc20RewardService.erc20ContractAddress }}"
-                [(ngModel)]="erc20RewardService.erc20ContractAddress"
-              />
-              <input
-                *ngIf=""
                 [(ngModel)]="input.value"
                 placeholder="{{ input.name }}"
                 class="border border-gray-300 rounded-md p-2"
