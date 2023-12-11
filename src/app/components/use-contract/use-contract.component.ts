@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ethers, providers } from 'ethers';
+import { Component } from '@angular/core';
+import { ethers } from 'ethers';
 import { CurrentContractService } from '../../services/current-contract.service';
 import { SignService } from '../../services/sign.service';
 
@@ -43,7 +43,6 @@ export class UseContractComponent {
     const args = func.inputs.map((input: any) => input.value);
 
     try {
-      // Execute the function based on stateMutability
       const result =
         func.stateMutability === 'view'
           ? await this.contract.callStatic[func.name](...args)
@@ -51,11 +50,9 @@ export class UseContractComponent {
 
       console.log(`Function '${func.name}' executed with arguments:`, args);
 
-      // Display the result only if it's not an object and for view functions
       if (func.stateMutability === 'view') {
         console.log('Result:', result);
 
-        // Store the result associated with the function name
         this.functionResults[func.name] = result;
       }
     } catch (error: any) {

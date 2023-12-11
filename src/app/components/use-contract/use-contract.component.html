@@ -1,12 +1,16 @@
 <!-- use-contract.component.html -->
 
 <div class="p-4 bg-gray-100 rounded-md shadow-md">
-  <button
+  <div class="flex w-full px-4 py-2 items-center justify-between">
+    <button
     class="bg-blue-500 text-white py-2 px-4 rounded-md mb-4"
     (click)="getContract()"
   >
     Check
   </button>
+
+  <span class="text-blue-700 font-medium text-xl">{{contractAddress}}</span>
+  </div>
 
   <div *ngIf="contract">
     <div *ngFor="let func of currentContractService.abi" class="mb-4">

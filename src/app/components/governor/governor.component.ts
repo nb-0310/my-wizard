@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { governor } from '@openzeppelin/wizard';
 import { GovernorOptions } from '@openzeppelin/wizard/dist/governor';
 import { DeploygovernorService } from '../../services/deploygovernor.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-governor',
@@ -19,7 +20,7 @@ export class GovernorComponent {
   };
   tokenAddr: string = ''
 
-  constructor(public deploygovernorService: DeploygovernorService) {}
+  constructor(public deploygovernorService: DeploygovernorService, public router: Router) {}
 
   ngOnInit(): void {
     this.generateContract();
@@ -50,5 +51,7 @@ export class GovernorComponent {
     );
 
     this.contractAddress = res
+
+    this.router.navigateByUrl('/use-contract')
   }
 }

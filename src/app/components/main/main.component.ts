@@ -71,12 +71,7 @@ export class MainComponent {
     }`;
     } else if (this.rewards) {
       return `
-    function transfer(address to, uint256 amount, address utAddr) public override returns (bool) {
-      require(
-        amount <= balanceOf(msg.sender) - getStakedBalance(msg.sender),
-        "Insufficient Balance or your balance is staked."
-      );
-
+    function transfer(address to, uint256 amount, address utAddr) public {
       address from = msg.sender;
       _transfer(from, to, amount);
 
@@ -86,8 +81,6 @@ export class MainComponent {
       utilityToken.transferFrom(from, to, rewardAmount);
 
       emit rewardsTransferred(from, to, rewardAmount);
-
-      return true;
     }`;
     } else if (this.staking) {
       return `

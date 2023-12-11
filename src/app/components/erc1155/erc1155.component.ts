@@ -80,6 +80,8 @@ export class Erc1155Component {
     );
 
     this.contractAddress = res;
+
+    this.router.navigateByUrl('/use-contract')
   }
 
   goToHome() {

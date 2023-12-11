@@ -44,17 +44,19 @@ export class Deployerc20Service {
       const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
 
       let contract;
-      const addr = await signer.getAddress();
-      console.log('ABI', abi, bytecode, signer, addr);
+      let addr = await signer.getAddress();
+
       if (
         this.contractParams.access ||
         this.contractParams.mintable ||
         this.contractParams.pausable
       ) {
-        contract = await contractFactory.deploy(addr, { gasLimit: 5000000 });
+        contract = await contractFactory.deploy(addr);
       } else {
-        contract = await contractFactory.deploy({ gasLimit: 5000000 });
+        contract = await contractFactory.deploy();
       }
+
+      await contract.deployed();
 
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);

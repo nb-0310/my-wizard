@@ -23,12 +23,17 @@ export class Erc20Component {
     symbol: 'ETK',
   };
 
+  options = {
+    theme: 'vs-dark', // You can change this theme
+    language: 'sol', // Set the language to match your generated code
+  };
+
   contractAddress: string = '';
 
   constructor(
     private clipboardService: ClipboardService,
     public deployerc20Service: Deployerc20Service,
-    public router: Router
+    public router: Router,
   ) {}
 
   copyToClipboard(): void {
@@ -41,6 +46,13 @@ export class Erc20Component {
 
   generateTransferFunction(): string {
     return `
+    function transferFrom(address from, address to, uint256 amount) public override returns(bool) {
+      approve(from, amount);
+      _transfer(from, to, amount);
+
+      return true;
+    }
+
     function transfer(address to, uint256 amount) public override returns(bool) {
       _transfer(msg.sender, to, amount);
       return true;
@@ -70,14 +82,14 @@ export class Erc20Component {
 
   async deploy() {
     this.deployerc20Service.contractParams = this.contractParams
-    const params = {
+    const res = await this.deployerc20Service.deployERC721({
       name: this.contractParams.name,
       symbol: this.contractParams.symbol,
-      contract: this.contract
-    }
+      contract: this.contract,
+    });
 
-    const res = await this.deployerc20Service.deployERC721(params);
     this.contractAddress = res;
+
     this.router.navigateByUrl('/use-contract');
   }
 

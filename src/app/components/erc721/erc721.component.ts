@@ -85,6 +85,8 @@ export class Erc721Component {
     );
 
     this.contractAddress = res;
+
+    this.router.navigateByUrl('/use-contract');
   }
 
   goToHome() {
