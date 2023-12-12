@@ -1,0 +1,11 @@
+{
+  "name": "Gojo",
+  "description": "A cool guy with drip.",
+  "image": "https://i.imgur.com/7UfU6YY.jpeg",
+  "attributes": [
+    {
+      "trait_type": "Color",
+      "value": "Black"
+    }
+  ]
+}
