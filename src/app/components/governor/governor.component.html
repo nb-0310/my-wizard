@@ -135,8 +135,9 @@
               type="checkbox"
               [(ngModel)]="contractParams.settings"
               (ngModelChange)="generateContract()"
+              id="settings"
             />
-            <label for="mintable">Updateble Settings</label>
+            <label for="settings">Updateble Settings</label>
           </div>
 
           <div class="flex items-center gap-4">
@@ -144,8 +145,9 @@
               type="checkbox"
               [(ngModel)]="contractParams.storage"
               (ngModelChange)="generateContract()"
+              id="storage"
             />
-            <label for="mintable">Storage</label>
+            <label for="storage">Storage</label>
           </div>
         </div>
       </div>

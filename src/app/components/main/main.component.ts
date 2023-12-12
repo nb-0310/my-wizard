@@ -15,7 +15,7 @@ export class MainComponent {
   contract: string = '';
   staking: boolean = false;
   minStakingDuration: string = '2 days';
-  rewardMultiplier: number = 5; // Default reward multiplier
+  rewardMultiplier: number = 5;
   rewards: boolean = false;
   votingThreshold: number = 10;
 

@@ -64,7 +64,6 @@ export class Erc20Component {
   }
 
   generateContract(): string {
-    console.log(this.contractParams)
     const contract: string = erc20.print(this.contractParams as ERC20Options);
 
     const lastCurlyBraceIndex: number = contract.lastIndexOf('}');

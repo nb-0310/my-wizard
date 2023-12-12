@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { CurrentContractService } from '../../services/current-contract.service';
 import { SignService } from '../../services/sign.service';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
@@ -34,6 +34,7 @@ export class UseContractComponent {
 
   ngOnInit(): void {
     this.contractAddress = this.currentContractService.currentContractAddress;
+    console.log(this.currentContractService.abi)
   }
 
   getContract(): void {
@@ -42,29 +43,33 @@ export class UseContractComponent {
       this.currentContractService.abi,
       this.provider
     );
-
-    if (this.contract.transfer) console.log(this.contract)
-    else console.log('Noo:(')
   }
 
   async executeFunction(func: any) {
     const args = func.inputs.map((input: any) => input.value);
-
+    let result;
     try {
-      const result =
-        func.stateMutability === 'view'
-          ? await this.contract.callStatic[func.name](...args)
-          : await this.contract.connect(this.signService.signer)[func.name](...args);
+        result =
+            func.stateMutability === 'view'
+                ? await this.contract.callStatic[func.name](...args)
+                : await this.contract
+                    .connect(this.signService.signer)
+                    [func.name](...args);
 
-      console.log(`Function '${func.name}' executed with arguments:`, args);
+        console.log(`Function '${func.name}' executed with arguments:`, args);
 
-      if (func.stateMutability === 'view') {
-        console.log('Result:', result);
-
-        this.functionResults[func.name] = result;
-      }
+        if (func.stateMutability === 'view') {
+            if (result instanceof BigNumber) {
+                this.functionResults[func.name] = ethers.utils.formatEther(result);
+            } else {
+                this.functionResults[func.name] = result.toString();
+            }
+        }
     } catch (error: any) {
-      console.error(`Error executing function '${func.name}':`, error.message);
+        console.error(`Error executing function '${func.name}':`, error.message);
     }
-  }
+
+    console.log('Result:', result);
+    console.log(typeof result);
+}
 }

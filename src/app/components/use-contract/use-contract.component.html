@@ -50,7 +50,7 @@
         </ng-container>
 
         <div *ngIf="functionResults[func.name]" class="ml-4">
-          <strong>Result:</strong> {{ functionResults[func.name] }}
+          <strong>Result:</strong> {{ functionResults[func.name] | json }}
         </div>
       </div>
     </div>

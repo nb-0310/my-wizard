@@ -100,6 +100,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.mintable"
               (ngModelChange)="generateContract()"
+              id="mintable"
             />
             <label for="mintable">Mintable</label>
           </div>
@@ -109,6 +110,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.burnable"
               (ngModelChange)="generateContract()"
+              id="burnable"
             />
             <label for="burnable">Burnable</label>
           </div>
@@ -118,6 +120,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.pausable"
               (ngModelChange)="generateContract()"
+              id="pausable"
             />
             <label for="pausable">Pausable</label>
           </div>
@@ -127,6 +130,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.permit"
               (ngModelChange)="generateContract()"
+              id="permit"
             />
             <label for="permit">Permit</label>
           </div>
@@ -136,6 +140,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.votes"
               (ngModelChange)="generateContract()"
+              id="votes"
             />
             <label for="votes">Votes</label>
           </div>
@@ -145,6 +150,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.flashmint"
               (ngModelChange)="generateContract()"
+              id="flash"
             />
             <label for="flash">Flash Minting</label>
           </div>
@@ -161,6 +167,7 @@
             (change)="generateContract()"
             [value]="'ownable'"
             name="accessType"
+            id="ownable"
           />
           <label for="ownable">Ownable</label>
         </div>
@@ -172,6 +179,7 @@
             (change)="generateContract()"
             [value]="'roles'"
             name="accessType"
+            id="roles"
           />
           <label for="roles">Roles</label>
         </div>
@@ -183,6 +191,7 @@
             (change)="generateContract()"
             [value]="'managed'"
             name="accessType"
+            id="managed"
           />
           <label for="managed">Managed</label>
         </div>
@@ -197,6 +206,7 @@
               type="checkbox"
               [(ngModel)]="staking"
               (ngModelChange)="generateContract()"
+              id="staking"
             />
             <label for="staking">Staking</label>
           </div>
@@ -232,10 +242,6 @@
       <div class="py-2 border-b-2 border-slate-200">
         <div class="flex gap-3 items-center justify-between">
           <h3 class="mb-2 text-sm font-bold text-slate-600">Rewards</h3>
-
-          <button class="w-3 h-3 rounded-full bg-zinc-500 text-white text-xs">
-            i
-          </button>
         </div>
 
         <div>
@@ -244,8 +250,9 @@
               type="checkbox"
               [(ngModel)]="rewards"
               (ngModelChange)="generateContract()"
+              id="rewards"
             />
-            <label for="staking">Give Rewards</label>
+            <label for="rewards">Give Rewards</label>
           </div>
 
           <div>

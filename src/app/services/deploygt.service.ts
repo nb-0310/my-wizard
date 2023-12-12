@@ -55,8 +55,6 @@ export class DeploygtService {
 
       await contract.deployed();
 
-      console.log(abi)
-
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);
 

@@ -46,8 +46,6 @@ export class GovernorComponent {
         this.contractParams.quorumPercent
       );
 
-    console.log(this.contractParams);
-
     const contract = governor.print(this.contractParams);
     this.contract = contract;
   }

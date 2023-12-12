@@ -14,7 +14,7 @@ export class Deployerc20Service {
   constructor(
     public signService: SignService,
     public currentContractService: CurrentContractService
-  ) { }
+  ) {}
 
   async getAbi(params: any): Promise<{ abi: string; bytecode: string }> {
     try {
@@ -47,6 +47,21 @@ export class Deployerc20Service {
       let addr = await signer.getAddress();
 
       if (
+        this.contractParams.access === 'roles' &&
+        this.contractParams.mintable &&
+        this.contractParams.pausable
+      ) {
+        contract = await contractFactory.deploy(addr, addr, addr);
+      } else if (
+        (this.contractParams.access === 'roles' &&
+          this.contractParams.mintable &&
+          !this.contractParams.pausable) ||
+        (this.contractParams.access === 'roles' &&
+          this.contractParams.pausable &&
+          !this.contractParams.mintable)
+      ) {
+        contract = await contractFactory.deploy(addr, addr);
+      } else if (
         this.contractParams.access ||
         this.contractParams.mintable ||
         this.contractParams.pausable
@@ -58,11 +73,13 @@ export class Deployerc20Service {
 
       await contract.deployed();
 
+      console.log(params.contract);
+
       const contractAddress = contract.address;
       console.log('Contract deployed to address:', contractAddress);
 
       this.currentContractService.setAddress(contractAddress);
-      this.currentContractService.abi = abi
+      this.currentContractService.abi = abi;
 
       return contractAddress;
     }

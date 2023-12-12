@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SignService } from '../../services/sign.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign',
@@ -7,5 +8,11 @@ import { SignService } from '../../services/sign.service';
   styleUrl: './sign.component.css'
 })
 export class SignComponent {
-  constructor(public signService: SignService) {}
+  constructor(public signService: SignService, public router: Router) {}
+
+  ngOnInit(): void {
+    if (this.signService.signer) {
+      this.router.navigateByUrl('/main')
+    }
+  }
 }

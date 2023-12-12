@@ -92,6 +92,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.mintable"
               (ngModelChange)="generateContract()"
+              id="mintable"
             />
             <label for="mintable">Mintable</label>
           </div>
@@ -101,6 +102,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.burnable"
               (ngModelChange)="generateContract()"
+              id="burnable"
             />
             <label for="burnable">Burnable</label>
           </div>
@@ -110,6 +112,7 @@
               type="checkbox"
               [(ngModel)]="contractParams.pausable"
               (ngModelChange)="generateContract()"
+              id="pausable"
             />
             <label for="pausable">Pausable</label>
           </div>
@@ -119,8 +122,9 @@
               type="checkbox"
               [(ngModel)]="contractParams.supply"
               (ngModelChange)="generateContract()"
+              id="supply"
             />
-            <label for="votes">Supply Tracking</label>
+            <label for="supply">Supply Tracking</label>
           </div>
 
           <div class="flex items-center gap-4">
@@ -128,8 +132,9 @@
               type="checkbox"
               [(ngModel)]="contractParams.updatableUri"
               (ngModelChange)="generateContract()"
+              id="updatableUri"
             />
-            <label for="votes">Updatable URI</label>
+            <label for="updatableUri">Updatable URI</label>
           </div>
         </div>
       </div>
@@ -144,6 +149,7 @@
             (change)="generateContract()"
             [value]="'ownable'"
             name="accessType"
+            id="ownable"
           />
           <label for="ownable">Ownable</label>
         </div>
@@ -155,6 +161,7 @@
             (change)="generateContract()"
             [value]="'roles'"
             name="accessType"
+            id="roles"
           />
           <label for="roles">Roles</label>
         </div>
@@ -166,6 +173,7 @@
             (change)="generateContract()"
             [value]="'managed'"
             name="accessType"
+            id="managed"
           />
           <label for="managed">Managed</label>
         </div>
