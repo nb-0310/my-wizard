@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { erc1155 } from '@openzeppelin/wizard';
 import { ERC1155Options } from '@openzeppelin/wizard/dist/erc1155';
 import { ClipboardService } from 'ngx-clipboard';
-import { Deployerc1155Service } from '../../services/deployerc1155.service';
 import { Router } from '@angular/router';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
+import { DeployService } from '../../services/deploy.service';
 
 @Component({
   selector: 'app-erc1155',
@@ -15,9 +15,10 @@ export class Erc1155Component {
   contract: string = '';
   staking: boolean = false;
   minStakingDuration: string = '2 days';
-  rewardMultiplier: number = 5; // Default reward multiplier
+  rewardMultiplier: number = 5;
   rewards: boolean = false;
   votingThreshold: number = 10;
+  showLoader: boolean = false
 
   contractParams: ERC1155Options = {
     name: 'ExampleToken',
@@ -28,9 +29,9 @@ export class Erc1155Component {
 
   constructor(
     private clipboardService: ClipboardService,
-    public deployerc1155Service: Deployerc1155Service,
     public router: Router,
-    public erc20RewardService: Erc20RewardService
+    public erc20RewardService: Erc20RewardService,
+    public deployService: DeployService
   ) {}
 
   copyToClipboard(): void {
@@ -71,21 +72,23 @@ export class Erc1155Component {
   }
 
   async deploy() {
-    this.deployerc1155Service.contractParams = this.contractParams
+    this.showLoader = true
+    this.deployService.contractParams = this.contractParams;
+    this.deployService.contractType = 'erc1155';
+
     const params = {
       name: this.contractParams.name,
       uri: this.contractParams.uri,
-      contract: this.contract
-    }
-    const res = await this.deployerc1155Service.deployERC721(
-      params
-    );
+      contract: this.contract,
+    };
+    const res = await this.deployService.deploy(params);
 
     this.contractAddress = res;
 
-    this.erc20RewardService.gt = false
+    this.erc20RewardService.gt = false;
+    this.showLoader = false
 
-    this.router.navigateByUrl('/use-contract')
+    this.router.navigateByUrl('/use-contract');
   }
 
   goToHome() {

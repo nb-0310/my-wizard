@@ -8,6 +8,10 @@
         ERC20 GT
       </button>
 
+      <div *ngIf="showLoader">
+        <app-loader></app-loader>
+      </div>
+
       <button
         class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
       >

@@ -11,6 +11,7 @@ import { ClipboardService } from 'ngx-clipboard';
 export class NavbarComponent {
   signer: any;
   address: string = '';
+  showLoader: boolean = false
 
   constructor(
     public signService: SignService,
@@ -25,7 +26,9 @@ export class NavbarComponent {
   }
 
   async getSigner() {
+    this.showLoader = true
     this.signer = await this.signService.getSigner();
+    this.showLoader = false
     this.router.navigateByUrl('/main');
     this.address = await this.signer.getAddress();
     return this.signer;

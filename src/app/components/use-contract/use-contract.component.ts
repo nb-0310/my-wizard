@@ -15,6 +15,7 @@ export class UseContractComponent {
   contractAbi: Array<object> = [];
   providerString: string = '';
   contract: any;
+  showLoader: boolean = false
   provider: any = new ethers.providers.JsonRpcProvider(
     'https://goerli.infura.io/v3/040153c0048b43b190d3ee87e7ede59b'
   );
@@ -34,7 +35,7 @@ export class UseContractComponent {
 
   ngOnInit(): void {
     this.contractAddress = this.currentContractService.currentContractAddress;
-    console.log(this.currentContractService.abi)
+    console.log(this.currentContractService.abi);
   }
 
   getContract(): void {
@@ -46,30 +47,33 @@ export class UseContractComponent {
   }
 
   async executeFunction(func: any) {
+    this.showLoader = true
     const args = func.inputs.map((input: any) => input.value);
     let result;
     try {
-        result =
-            func.stateMutability === 'view'
-                ? await this.contract.callStatic[func.name](...args)
-                : await this.contract
-                    .connect(this.signService.signer)
-                    [func.name](...args);
+      result =
+        func.stateMutability === 'view'
+          ? await this.contract.callStatic[func.name](...args)
+          : await this.contract
+              .connect(this.signService.signer)
+              [func.name](...args);
 
-        console.log(`Function '${func.name}' executed with arguments:`, args);
+      console.log(`Function '${func.name}' executed with arguments:`, args);
 
-        if (func.stateMutability === 'view') {
-            if (result instanceof BigNumber) {
-                this.functionResults[func.name] = ethers.utils.formatEther(result);
-            } else {
-                this.functionResults[func.name] = result.toString();
-            }
+      if (func.stateMutability === 'view') {
+        if (result instanceof BigNumber) {
+          this.functionResults[func.name] = ethers.utils.formatEther(result);
+        } else {
+          this.functionResults[func.name] = result.toString();
         }
+      }
     } catch (error: any) {
-        console.error(`Error executing function '${func.name}':`, error.message);
+      console.error(`Error executing function '${func.name}':`, error.message);
     }
+
+    this.showLoader = false
 
     console.log('Result:', result);
     console.log(typeof result);
-}
+  }
 }

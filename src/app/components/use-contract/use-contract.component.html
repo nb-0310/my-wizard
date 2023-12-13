@@ -37,6 +37,10 @@
           {{ func.name }}
         </button>
 
+        <div *ngIf="showLoader">
+          <app-loader></app-loader>
+        </div>
+
         <ng-container *ngIf="func.inputs && func.inputs.length > 0">
           <div class="flex gap-2 flex-wrap">
             <ng-container *ngFor="let input of func.inputs">

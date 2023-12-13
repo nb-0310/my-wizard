@@ -7,15 +7,24 @@ import { Erc20Component } from './components/erc20/erc20.component';
 import { GovernorComponent } from './components/governor/governor.component';
 import { SignComponent } from './components/sign/sign.component';
 import { UseContractComponent } from './components/use-contract/use-contract.component';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
   { path: '', component: SignComponent },
-  { path: 'main', component: MainComponent },
-  { path: 'erc721', component: Erc721Component },
-  { path: 'erc1155', component: Erc1155Component },
-  { path: 'erc20', component: Erc20Component },
-  { path: 'governor', component: GovernorComponent },
-  { path: 'use-contract', component: UseContractComponent },
+  { path: 'main', component: MainComponent, canActivate: [AuthService] },
+  { path: 'erc721', component: Erc721Component, canActivate: [AuthService] },
+  { path: 'erc1155', component: Erc1155Component, canActivate: [AuthService] },
+  { path: 'erc20', component: Erc20Component, canActivate: [AuthService] },
+  {
+    path: 'governor',
+    component: GovernorComponent,
+    canActivate: [AuthService],
+  },
+  {
+    path: 'use-contract',
+    component: UseContractComponent,
+    canActivate: [AuthService],
+  },
 ];
 
 @NgModule({

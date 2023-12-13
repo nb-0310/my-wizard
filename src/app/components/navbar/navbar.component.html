@@ -3,6 +3,11 @@
     <div class="p-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">
       HOLACRACY
     </div>
+
+    <div *ngIf="showLoader">
+      <app-loader></app-loader>
+    </div>
+
     <button
       *ngIf="!this.signer"
       class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"

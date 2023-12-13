@@ -40,9 +40,14 @@
     <div class="flex items-center gap-4">
       <button
         class="border border-slate-300 rounded-lg px-4 py-2 text-slate-700 font-bold"
+        (click)="copyToClipboard()"
       >
         Copy to Clipboard
       </button>
+
+      <div *ngIf="showLoader">
+        <app-loader></app-loader>
+      </div>
 
       <button
       *ngIf="contractAddress===''"

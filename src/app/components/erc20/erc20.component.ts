@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { erc20 } from '@openzeppelin/wizard';
 import { ERC20Options } from '@openzeppelin/wizard/dist/erc20';
 import { ClipboardService } from 'ngx-clipboard';
-import { Deployerc20Service } from '../../services/deployerc20.service';
 import { Router } from '@angular/router';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
+import { DeployService } from '../../services/deploy.service';
 
 @Component({
   selector: 'app-erc20',
@@ -18,6 +18,7 @@ export class Erc20Component {
   rewardMultiplier: number = 5;
   rewards: boolean = false;
   votingThreshold: number = 10;
+  showLoader: boolean = false
 
   contractParams: ERC20Options = {
     name: 'ExampleToken',
@@ -28,9 +29,9 @@ export class Erc20Component {
 
   constructor(
     private clipboardService: ClipboardService,
-    public deployerc20Service: Deployerc20Service,
     public router: Router,
-    public erc20RewardService: Erc20RewardService
+    public erc20RewardService: Erc20RewardService,
+    public deployService: DeployService
   ) {}
 
   copyToClipboard(): void {
@@ -84,8 +85,10 @@ export class Erc20Component {
   }
 
   async deploy() {
-    this.deployerc20Service.contractParams = this.contractParams
-    const res = await this.deployerc20Service.deployERC721({
+    this.showLoader = true
+    this.deployService.contractParams = this.contractParams
+    this.deployService.contractType = 'erc20'
+    const res = await this.deployService.deploy({
       name: this.contractParams.name,
       symbol: this.contractParams.symbol,
       contract: this.contract,
@@ -94,6 +97,8 @@ export class Erc20Component {
     this.contractAddress = res;
 
     this.erc20RewardService.gt = false
+
+    this.showLoader = false
 
     this.router.navigateByUrl('/use-contract');
   }

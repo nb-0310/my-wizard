@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { governor } from '@openzeppelin/wizard';
 import { GovernorOptions } from '@openzeppelin/wizard/dist/governor';
-import { DeploygovernorService } from '../../services/deploygovernor.service';
 import { Router } from '@angular/router';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { DeployService } from '../../services/deploy.service';
 
 @Component({
   selector: 'app-governor',
@@ -14,6 +14,7 @@ import { ClipboardService } from 'ngx-clipboard';
 export class GovernorComponent {
   contractAddress: string = '';
   contract: string = '';
+  showLoader: boolean = false
   contractParams: GovernorOptions = {
     name: 'MyGovernor',
     delay: '0 days',
@@ -23,10 +24,10 @@ export class GovernorComponent {
   tokenAddr: string = '';
 
   constructor(
-    public deploygovernorService: DeploygovernorService,
     public router: Router,
     public erc20RewardService: Erc20RewardService,
-    public clipboardService: ClipboardService
+    public clipboardService: ClipboardService,
+    public deployService: DeployService
   ) {}
 
   ngOnInit(): void {
@@ -51,11 +52,14 @@ export class GovernorComponent {
   }
 
   async deploy() {
+    this.showLoader = true
+    this.deployService.contractType = 'governor'
     const params = {
       name: this.contractParams.name,
       contract: this.contract,
     };
-    const res = await this.deploygovernorService.deployGovernor(
+    
+    const res = await this.deployService.deployGovernor(
       params,
       this.tokenAddr
     );
@@ -63,6 +67,7 @@ export class GovernorComponent {
     this.contractAddress = res;
 
     this.erc20RewardService.gt = false
+    this.showLoader = false
 
     this.router.navigateByUrl('/use-contract');
   }
