@@ -95,11 +95,9 @@ export class Erc20Component {
     });
 
     this.contractAddress = res;
-
     this.erc20RewardService.gt = false
-
+    localStorage.setItem('contractAddress', res);
     this.showLoader = false
-
     this.router.navigateByUrl('/use-contract');
   }
 

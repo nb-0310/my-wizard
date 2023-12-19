@@ -1,45 +1,6 @@
 <div class="w-[90%] bg-white mx-auto p-4 rounded-xl">
   <div class="w-full flex items-center justify-between mb-5">
-    <div class="flex items-center gap-2">
-      <button
-        class="bg-blue-600 text-white text-sm font-bold rounded-lg px-4 py-2"
-        routerLink="/"
-      >
-        ERC20 GT
-      </button>
-
-      <div *ngIf="showLoader">
-        <app-loader></app-loader>
-      </div>
-
-      <button
-        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-        routerLink="/erc721"
-      >
-        ERC721
-      </button>
-
-      <button
-        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-        routerLink="/erc1155"
-      >
-        ERC1155
-      </button>
-
-      <button
-        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-        routerLink="/erc20"
-      >
-        ERC20
-      </button>
-
-      <button
-        class="text-sm font-bold rounded-lg px-4 py-2 hover:bg-zinc-400 hover:text-white"
-        routerLink="/governor"
-      >
-        Governor
-      </button>
-    </div>
+    <app-item-nav></app-item-nav>
 
     <div class="flex items-center gap-4">
       <button

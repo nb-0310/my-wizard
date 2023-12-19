@@ -13,6 +13,8 @@ import { GovernorComponent } from './components/governor/governor.component';
 import { SignComponent } from './components/sign/sign.component';
 import { UseContractComponent } from './components/use-contract/use-contract.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { IcoComponent } from './components/ico/ico.component';
+import { ItemNavComponent } from './components/item-nav/item-nav.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     SignComponent,
     UseContractComponent,
     LoaderComponent,
+    IcoComponent,
+    ItemNavComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,14 +16,16 @@ export class SignService {
 
   async connectToWeb3(): Promise<void> {
     try {
-      const customWindow = window as CustomWindow;
+      // This will be used while testing for Besu
 
       // const provider = new ethers.providers.JsonRpcProvider(environment.RpcUrl);
       // console.log('Provder rpc', provider);
       // this.signer = new ethers.Wallet(environment.privateKey, provider);
       // console.log('Signer Rpc', this.signer);
 
-      // This will be used in production
+      // This will be used for dynamic signer
+
+      const customWindow = window as CustomWindow;
 
       if (customWindow.ethereum) {
         const accounts = await customWindow.ethereum.request({

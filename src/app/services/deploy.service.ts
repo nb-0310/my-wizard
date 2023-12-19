@@ -108,4 +108,22 @@ export class DeployService {
       return contractAddress;
     }
   }
+
+  async deployIco(abi: any, bytecode: string, params: any): Promise<any> {
+    if (abi && bytecode) {
+      const contractFactory = new ethers.ContractFactory(abi, bytecode, params.tokenOwnerAddress);
+
+      const contract = await contractFactory.deploy();
+
+      await contract.deployed();
+
+      const contractAddress = contract.address;
+      console.log('Contract deployed to address:', contractAddress);
+
+      this.currentContractService.setAddress(contractAddress);
+      this.currentContractService.abi = abi;
+
+      return contractAddress;
+    }
+  }
 }

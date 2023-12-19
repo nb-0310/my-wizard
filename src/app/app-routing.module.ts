@@ -7,6 +7,7 @@ import { Erc20Component } from './components/erc20/erc20.component';
 import { GovernorComponent } from './components/governor/governor.component';
 import { SignComponent } from './components/sign/sign.component';
 import { UseContractComponent } from './components/use-contract/use-contract.component';
+import { IcoComponent } from './components/ico/ico.component';
 import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
@@ -25,6 +26,11 @@ const routes: Routes = [
     component: UseContractComponent,
     canActivate: [AuthService],
   },
+  {
+    path: 'ico',
+    component: IcoComponent,
+    canActivate: [AuthService],
+  }
 ];
 
 @NgModule({

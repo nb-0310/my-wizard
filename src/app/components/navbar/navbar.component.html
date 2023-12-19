@@ -21,7 +21,7 @@
       class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
       (click)="copyToClipboard()"
     >
-      {{ address.slice(0, 10) }}...
+      {{ address.slice(0, 5) }}...{{ address.slice(address.length - 5, address.length) }}
     </button>
   </div>
 
