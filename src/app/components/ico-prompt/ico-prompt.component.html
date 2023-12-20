@@ -1,8 +1,10 @@
 <div class="max-w-xl mx-auto mt-8 p-8 bg-white rounded shadow-md">
   <form class="space-y-4">
-    <label class="block text-lg font-semibold mb-2">Do you already have an ERC20 token for the token offering?</label>
+    <label class="block text-lg font-semibold mb-2"
+      >Do you already have an ERC20 token for the token offering?</label
+    >
 
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2 relative pl-4">
       <input
         type="radio"
         [(ngModel)]="whereToTake"
@@ -10,11 +12,18 @@
         [value]="'ico'"
         name="route"
         id="yes"
+        class="hidden"
       />
-      <label for="yes" class="text-gray-700">Yes, I have an ERC20 token on goerli testnet.</label>
+      <label
+        for="yes"
+        [class.before:border-4]="whereToTake === 'ico'"
+        class="text-gray-700 before:mr-4 before:w-4 before:h-4 before:border before:border-violet-600 before:absolute before:left-0 before:top-[50%] before:translate-y-[-50%] before:rounded-full"
+      >
+        Yes, I have an ERC20 token on goerli testnet.
+      </label>
     </div>
 
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2 relative pl-4">
       <input
         type="radio"
         [(ngModel)]="whereToTake"
@@ -22,13 +31,21 @@
         [value]="'erc20'"
         name="route"
         id="no"
+        class="hidden"
       />
-      <label for="no" class="text-gray-700">No, I need help to create my own token and deploy it on goerli testnet.</label>
+      <label
+        for="no"
+        [class.before:border-4]="whereToTake === 'erc20'"
+        class="text-gray-700 before:mr-4 before:w-4 before:h-4 before:border before:border-violet-600 before:absolute before:left-0 before:top-[50%] before:translate-y-[-50%] before:rounded-full"
+      >
+        No, I need help to create my own token and deploy it on goerli testnet.
+      </label>
     </div>
 
-    <!-- Input field for token address -->
     <div class="mt-4" *ngIf="whereToTake === 'ico'">
-      <label class="block text-sm font-semibold mb-2">Enter your ERC20 token address:</label>
+      <label class="block text-sm font-semibold mb-2"
+        >Enter your ERC20 token address:</label
+      >
       <input
         type="text"
         [(ngModel)]="tokenAddress"
@@ -39,7 +56,7 @@
       />
 
       <div *ngIf="error !== ''" class="text-sm font-semibold mt-2 text-red-800">
-        {{error}}
+        {{ error }}
       </div>
     </div>
   </form>
