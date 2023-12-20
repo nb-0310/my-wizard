@@ -5,6 +5,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { Router } from '@angular/router';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
 import { DeployService } from '../../services/deploy.service';
+import { IcoServiceService } from '../../services/ico-service.service';
 
 @Component({
   selector: 'app-erc20',
@@ -31,7 +32,8 @@ export class Erc20Component {
     private clipboardService: ClipboardService,
     public router: Router,
     public erc20RewardService: Erc20RewardService,
-    public deployService: DeployService
+    public deployService: DeployService,
+    public icoService: IcoServiceService
   ) {}
 
   copyToClipboard(): void {
@@ -98,7 +100,9 @@ export class Erc20Component {
     this.erc20RewardService.gt = false
     localStorage.setItem('contractAddress', res);
     this.showLoader = false
-    this.router.navigateByUrl('/use-contract');
+    
+    if (this.icoService.toIco) this.router.navigateByUrl('/ico')
+    else this.router.navigateByUrl('/use-contract');
   }
 
   goToHome() {

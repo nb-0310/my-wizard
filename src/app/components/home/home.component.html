@@ -1,21 +1,35 @@
 <div class="w-full h-[70vh] flex justify-around items-center gap-6">
-  <div class="flex gap-3 items-center flex-col">
-    <div class="text-lg font-semibold">Do you want to create a smart contract?</div>
+  <div
+    class="flex flex-col items-center space-y-3 bg-white rounded-lg p-6 shadow-md"
+  >
+    <div class="text-xl font-semibold text-center text-blue-800">
+      Create a Smart Contract
+    </div>
+    <p class="text-sm text-gray-600 text-center">
+      Explore the world of smart contracts and blockchain development.
+    </p>
     <button
-      class="text-sm bg-blue-600 text-white font-bold rounded-lg px-4 py-2 hover:bg-blue-800"
+      class="text-sm bg-blue-600 text-white font-bold rounded-lg px-4 py-2 hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300"
       (click)="navigateToScaas()"
     >
-      Click here
+      Get Started
     </button>
   </div>
 
-  <div class="flex gap-3 items-center flex-col">
-    <div class="text-lg font-semibold">Do you want to create a Token Offering?</div>
+  <div
+    class="flex flex-col items-center space-y-3 bg-white rounded-lg p-6 shadow-md"
+  >
+    <div class="text-xl font-semibold text-center text-purple-800">
+      Token Offering Creation
+    </div>
+    <p class="text-sm text-gray-600 text-center">
+      Launch your own token offering and engage with your community.
+    </p>
     <button
-      class="text-sm bg-blue-600 text-white font-bold rounded-lg px-4 py-2 hover:bg-blue-800"
+      class="text-sm bg-purple-600 text-white font-bold rounded-lg px-4 py-2 hover:bg-purple-800 focus:outline-none focus:ring focus:border-purple-300"
       (click)="navigateToIco()"
     >
-      Click here
+      Get Started
     </button>
   </div>
 </div>

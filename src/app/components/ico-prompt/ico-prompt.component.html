@@ -1,16 +1,55 @@
-<div>
-  <form>
-    <label>Do you already have an ERC20 token for the token offering?</label>
+<div class="max-w-xl mx-auto mt-8 p-8 bg-white rounded shadow-md">
+  <form class="space-y-4">
+    <label class="block text-lg font-semibold mb-2">Do you already have an ERC20 token for the token offering?</label>
 
-    <input type="radio" id="yes" [(ngModel)]="whereToTake" name="whereToTake" />
-    <label for="yes">Yes I have an ERC20 token on goerli testnet.</label>
+    <div class="flex items-center space-x-2">
+      <input
+        type="radio"
+        [(ngModel)]="whereToTake"
+        (change)="handleChange()"
+        [value]="'ico'"
+        name="route"
+        id="yes"
+      />
+      <label for="yes" class="text-gray-700">Yes, I have an ERC20 token on goerli testnet.</label>
+    </div>
 
-    <input type="radio" id="no" [(ngModel)]="whereToTake" name="whereToTake" />
-    <label for="no"
-      >No, I need help to get create my own token and deploy it on goerli
-      testnet.</label
-    >
+    <div class="flex items-center space-x-2">
+      <input
+        type="radio"
+        [(ngModel)]="whereToTake"
+        (change)="handleChange()"
+        [value]="'erc20'"
+        name="route"
+        id="no"
+      />
+      <label for="no" class="text-gray-700">No, I need help to create my own token and deploy it on goerli testnet.</label>
+    </div>
+
+    <!-- Input field for token address -->
+    <div class="mt-4" *ngIf="whereToTake === 'ico'">
+      <label class="block text-sm font-semibold mb-2">Enter your ERC20 token address:</label>
+      <input
+        type="text"
+        [(ngModel)]="tokenAddress"
+        name="tokenAddress"
+        class="border border-gray-300 rounded-md px-3 py-2 w-full"
+        placeholder="0x1234567890abcdef1234567890abcdef12345678"
+        autocomplete="off"
+      />
+
+      <div *ngIf="error !== ''" class="text-sm font-semibold mt-2 text-red-800">
+        {{error}}
+      </div>
+    </div>
   </form>
 
-  {{ whereToTake }}
+  <div class="mt-4">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
+      (click)="onSubmit()"
+    >
+      Continue
+    </button>
+  </div>
 </div>

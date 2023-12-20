@@ -1,6 +1,6 @@
 <div class="flex justify-between items-center px-20 py-8 w-[100%]">
   <div class="flex gap-5 items-center">
-    <div class="p-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">
+    <div class="px-3 py-1 bg-orange-300 text-lg font-semibold text-white rounded-lg">
       HOLACRACY
     </div>
 
@@ -9,16 +9,16 @@
     </div>
 
     <button
-      *ngIf="!this.signer"
-      class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
+      *ngIf="!signer"
+      class="px-3 py-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
       (click)="getSigner()"
     >
       Connect Wallet
     </button>
 
     <button
-      *ngIf="this.signer"
-      class="p-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
+      *ngIf="signer"
+      class="px-3 py-1 bg-blue-400 text-white font-semibold text-lg rounded-lg"
       (click)="copyToClipboard()"
     >
       {{ address.slice(0, 5) }}...{{ address.slice(address.length - 5, address.length) }}

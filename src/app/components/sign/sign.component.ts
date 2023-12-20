@@ -15,4 +15,9 @@ export class SignComponent {
       this.router.navigateByUrl('/home')
     }
   }
+
+  async getSigner() {
+    const signer = await this.signService.getSigner()
+    console.log(await signer.getAddress())
+  }
 }

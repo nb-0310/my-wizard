@@ -28,6 +28,7 @@
     "ngx-clipboard": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "web3": "^4.3.0",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {

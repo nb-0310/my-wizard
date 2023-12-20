@@ -46,7 +46,8 @@
             [(ngModel)]="tokenOwnerAddress"
           />
 
-          <form #salePhaseForm="ngForm">
+          <form #salePhaseForm="ngForm" class="py-3">
+            <h3 class="mb-2 text-sm font-bold text-slate-600">Sale Phases</h3>
             <div *ngFor="let phase of salePhases; let i = index">
               <label for="startTime{{ i }}" class="text-xs">Start Time</label>
               <input

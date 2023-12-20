@@ -1,3 +1,37 @@
-<div class="w-full h-full flex items-center justify-center" *ngIf="!signService.signer">
-    <h1>Please sign before moving forward!</h1>
+<div
+  class="w-full h-full flex items-center justify-center"
+  *ngIf="!signService.signer"
+>
+  <div class="text-center">
+    <h1 class="text-4xl font-bold mb-4 text-gray-800">
+      Empower Your Blockchain Journey with Smart Contract and ICO Services
+    </h1>
+    <p class="text-lg text-gray-600 mb-8">
+      Welcome to a platform designed to simplify and streamline your blockchain
+      experience. Create, deploy, and interact with smart contracts
+      effortlessly.
+    </p>
+    <div class="mb-8">
+      <img
+        src="path/to/your/image.jpg"
+        alt="Blockchain Illustration"
+        class="rounded-lg shadow-md"
+      />
+    </div>
+    <p class="text-lg text-gray-600 mb-8">
+      Whether you're a developer exploring the potential of smart contracts or
+      planning an Initial Coin Offering (ICO), our platform provides the tools
+      you need for success.
+    </p>
+    <p class="text-lg text-gray-600 mb-8">
+      Connect your blockchain wallet to get started on a journey of innovation
+      and collaboration. Unleash the power of decentralized technologies with
+      ease.
+    </p>
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
+    >
+      Connect Wallet
+    </button>
+  </div>
 </div>
