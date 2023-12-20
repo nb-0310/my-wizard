@@ -15,6 +15,8 @@ import { UseContractComponent } from './components/use-contract/use-contract.com
 import { LoaderComponent } from './components/loader/loader.component';
 import { IcoComponent } from './components/ico/ico.component';
 import { ItemNavComponent } from './components/item-nav/item-nav.component';
+import { HomeComponent } from './components/home/home.component';
+import { IcoPromptComponent } from './components/ico-prompt/ico-prompt.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { ItemNavComponent } from './components/item-nav/item-nav.component';
     LoaderComponent,
     IcoComponent,
     ItemNavComponent,
+    HomeComponent,
+    IcoPromptComponent,
   ],
   imports: [
     BrowserModule,

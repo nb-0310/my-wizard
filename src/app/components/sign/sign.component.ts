@@ -12,7 +12,7 @@ export class SignComponent {
 
   ngOnInit(): void {
     if (this.signService.signer) {
-      this.router.navigateByUrl('/main')
+      this.router.navigateByUrl('/home')
     }
   }
 }

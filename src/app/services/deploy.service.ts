@@ -111,9 +111,21 @@ export class DeployService {
 
   async deployIco(abi: any, bytecode: string, params: any): Promise<any> {
     if (abi && bytecode) {
-      const contractFactory = new ethers.ContractFactory(abi, bytecode, params.tokenOwnerAddress);
+      const contractFactory = new ethers.ContractFactory(
+        abi,
+        bytecode,
+        this.signService.signer
+      );
 
-      const contract = await contractFactory.deploy();
+      const contract = await contractFactory.deploy(
+        params.tokenAddress,
+        params.startTimes,
+        params.endTimes,
+        params.discounts,
+        params.tokenPrice,
+        params.tokenOwnerAddress,
+        params.tokenOwnerAddress
+      );
 
       await contract.deployed();
 

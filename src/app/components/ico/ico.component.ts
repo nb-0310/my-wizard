@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { contract } from '../../constants';
 import abi from '../../abi.json';
@@ -22,13 +23,15 @@ export class IcoComponent {
   constructor(
     private clipboardService: ClipboardService,
     public signService: SignService,
-    public deployService: DeployService
+    public deployService: DeployService,
+    public router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     const tokenAddress = localStorage.getItem('contractAddress');
     this.tokenAddress = tokenAddress as string;
     this.tokenOwnerAddress = await this.signService.signer.getAddress();
+    console.log(this.tokenOwnerAddress);
   }
 
   addSalePhase() {
@@ -40,8 +43,11 @@ export class IcoComponent {
   }
 
   logPhases() {
-    console.log(this.salePhases);
+    console.log("Sale Phases: ");
+    console.log(this.salePhases)
     console.log(abi);
+    const dt: any = new Date();
+    console.log('Current timestamp:', Math.floor(dt / 1000));
   }
 
   copyToClipboard(): void {
@@ -49,23 +55,44 @@ export class IcoComponent {
   }
 
   async deploy(): Promise<any> {
-    // this.showLoader = true
-    // this.deployService.contractParams = this.contractParams
-    // this.deployService.contractType = 'erc20'
+    this.logPhases();
+    this.deployService.contractType = 'ico';
+
+    const startTimes: Array<any> = [];
+    const endTimes: Array<any> = [];
+    const discounts: Array<any> = [];
+
+    for (let i = 0; i < this.salePhases.length; i++) {
+      const start: any = new Date(this.salePhases[i].startTime);
+      startTimes.push(Math.floor(start / 1000));
+      // startTimes.push(start);
+
+      const end: any = new Date(this.salePhases[i].endTime);
+      endTimes.push(Math.floor(end / 1000));
+      // endTimes.push(end);
+
+      discounts.push(this.salePhases[i].discountRate);
+    }
+
     const params = {
       tokenAddress: this.tokenAddress,
       tokenOwnerAddress: this.tokenOwnerAddress,
       tokenPrice: this.tokenPrice,
+      startTimes,
+      endTimes,
+      discounts,
     };
+
+    console.log(params);
 
     const res = await this.deployService.deployIco(abi, bytecode, params);
 
-    console.log(res)
+    // console.log(res);
 
     // this.contractAddress = res;
     // this.erc20RewardService.gt = false;
     // localStorage.setItem('contractAddress', res);
     // this.showLoader = false;
-    // this.router.navigateByUrl('/use-contract');
+    this.router.navigateByUrl('/use-contract');
   }
 }

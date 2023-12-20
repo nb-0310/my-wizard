@@ -29,7 +29,7 @@ export class NavbarComponent {
     this.showLoader = true
     this.signer = await this.signService.getSigner();
     this.showLoader = false
-    this.router.navigateByUrl('/main');
+    this.router.navigateByUrl('/home');
     this.address = await this.signer.getAddress();
     return this.signer;
   }

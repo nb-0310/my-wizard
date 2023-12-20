@@ -47,33 +47,47 @@ export class UseContractComponent {
   }
 
   async executeFunction(func: any) {
-    this.showLoader = true
+    this.showLoader = true;
     const args = func.inputs.map((input: any) => input.value);
     let result;
+  
     try {
-      result =
-        func.stateMutability === 'view'
-          ? await this.contract.callStatic[func.name](...args)
-          : await this.contract
-              .connect(this.signService.signer)
-              [func.name](...args);
-
-      console.log(`Function '${func.name}' executed with arguments:`, args);
-
       if (func.stateMutability === 'view') {
+        result = await this.contract.callStatic[func.name](...args);
+  
+        console.log(`View function '${func.name}' executed with arguments:`, args);
+  
         if (result instanceof BigNumber) {
           this.functionResults[func.name] = ethers.utils.formatEther(result);
         } else {
           this.functionResults[func.name] = result.toString();
         }
+      } else {
+        const currentTokenPrice = await this.contract.callStatic.tokenPrice();
+        const currentPhase = await this.contract.callStatic.getCurrentPhase()
+        const discountRate = await currentPhase.discountRate
+        const overrides = {
+          value: func.stateMutability === 'payable' ? (currentTokenPrice * args[0]) * (discountRate / 100) : undefined,
+          // gasPrice: ethers.utils.parseUnits('30', 'gwei'),
+          gasLimit: 200000
+        };
+  
+        const tx = await this.contract
+          .connect(this.signService.signer)
+          [func.name](...args, overrides);
+  
+        await tx.wait();
+  
+        this.functionResults[func.name] = 'Transaction successful';
+        console.log(`Transaction for function '${func.name}' successful.`);
       }
     } catch (error: any) {
       console.error(`Error executing function '${func.name}':`, error.message);
     }
-
-    this.showLoader = false
-
+  
+    this.showLoader = false;
+  
     console.log('Result:', result);
     console.log(typeof result);
-  }
+  }  
 }

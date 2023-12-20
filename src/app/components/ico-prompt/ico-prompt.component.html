@@ -1,0 +1,16 @@
+<div>
+  <form>
+    <label>Do you already have an ERC20 token for the token offering?</label>
+
+    <input type="radio" id="yes" [(ngModel)]="whereToTake" name="whereToTake" />
+    <label for="yes">Yes I have an ERC20 token on goerli testnet.</label>
+
+    <input type="radio" id="no" [(ngModel)]="whereToTake" name="whereToTake" />
+    <label for="no"
+      >No, I need help to get create my own token and deploy it on goerli
+      testnet.</label
+    >
+  </form>
+
+  {{ whereToTake }}
+</div>
