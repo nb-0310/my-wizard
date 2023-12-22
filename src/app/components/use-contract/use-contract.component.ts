@@ -71,16 +71,17 @@ export class UseContractComponent {
           this.functionResults[func.name] = result.toString();
         }
       } else if (func.stateMutability === 'nonpayable') {
-        result = await this.contract
+        const tx = await this.contract
           .connect(this.signService.signer)
           [func.name](...args);
 
+          await tx.wait()
+
+        this.functionResults[func.name] = 'Transaction successful';
         console.log(
           `Non Payable function '${func.name}' executed with arguments:`,
           args
         );
-
-        this.functionResults[func.name] = 'Transaction successful';
       } else {
         const currentTokenPrice = await this.contract.callStatic.tokenPrice();
         const currentPhase = await this.contract.callStatic.getCurrentPhase();
