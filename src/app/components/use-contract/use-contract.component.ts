@@ -5,6 +5,10 @@ import { SignService } from '../../services/sign.service';
 import { Erc20RewardService } from '../../services/erc20-reward.service';
 import { ClipboardService } from 'ngx-clipboard';
 
+interface CustomWindow extends Window {
+  ethereum?: any;
+}
+
 @Component({
   selector: 'app-use-contract',
   templateUrl: './use-contract.component.html',
@@ -15,11 +19,12 @@ export class UseContractComponent {
   contractAbi: Array<object> = [];
   providerString: string = '';
   contract: any;
-  showLoader: boolean = false
-  provider: any = new ethers.providers.JsonRpcProvider(
-    'https://goerli.infura.io/v3/040153c0048b43b190d3ee87e7ede59b'
-  );
-
+  showLoader: boolean = false;
+  // provider: any = new ethers.providers.JsonRpcProvider(
+  //   'https://goerli.infura.io/v3/040153c0048b43b190d3ee87e7ede59b'
+  // );
+  customWindow = window as CustomWindow
+  provider: any = new ethers.providers.Web3Provider(this.customWindow.ethereum)
   functionResults: { [key: string]: any } = {};
 
   constructor(
@@ -50,44 +55,61 @@ export class UseContractComponent {
     this.showLoader = true;
     const args = func.inputs.map((input: any) => input.value);
     let result;
-  
+
     try {
       if (func.stateMutability === 'view') {
         result = await this.contract.callStatic[func.name](...args);
-  
-        console.log(`View function '${func.name}' executed with arguments:`, args);
-  
+
+        console.log(
+          `View function '${func.name}' executed with arguments:`,
+          args
+        );
+
         if (result instanceof BigNumber) {
           this.functionResults[func.name] = ethers.utils.formatEther(result);
         } else {
           this.functionResults[func.name] = result.toString();
         }
+      } else if (func.stateMutability === 'nonpayable') {
+        result = await this.contract
+          .connect(this.signService.signer)
+          [func.name](...args);
+
+        console.log(
+          `Non Payable function '${func.name}' executed with arguments:`,
+          args
+        );
+
+        this.functionResults[func.name] = 'Transaction successful';
       } else {
         const currentTokenPrice = await this.contract.callStatic.tokenPrice();
-        const currentPhase = await this.contract.callStatic.getCurrentPhase()
-        const discountRate = await currentPhase.discountRate
+        const currentPhase = await this.contract.callStatic.getCurrentPhase();
+        const discountRate = await currentPhase.discountRate;
         const overrides = {
-          value: func.stateMutability === 'payable' ? (currentTokenPrice * args[0]) * (discountRate / 100) : undefined,
+          value:
+            func.stateMutability === 'payable'
+              ? currentTokenPrice * args[0] * (discountRate / 100)
+              : undefined,
           // gasPrice: ethers.utils.parseUnits('30', 'gwei'),
-          gasLimit: 200000
+          gasLimit: 200000,
         };
-  
+
         const tx = await this.contract
           .connect(this.signService.signer)
           [func.name](...args, overrides);
-  
+
         await tx.wait();
-  
+
         this.functionResults[func.name] = 'Transaction successful';
         console.log(`Transaction for function '${func.name}' successful.`);
       }
     } catch (error: any) {
       console.error(`Error executing function '${func.name}':`, error.message);
     }
-  
+
     this.showLoader = false;
-  
+
     console.log('Result:', result);
     console.log(typeof result);
-  }  
+  }
 }

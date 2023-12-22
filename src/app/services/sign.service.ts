@@ -47,6 +47,7 @@ export class SignService {
 
   async getSigner() {
     await this.connectToWeb3();
+    console.log(await this.signer.getAddress())
     return this.signer;
   }
 }

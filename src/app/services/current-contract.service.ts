@@ -17,6 +17,7 @@ export class CurrentContractService {
 
   setAddress(addr: string): void {
     this.currentContractAddress = addr
+    console.log(this.currentContractAddress)
   }
 
   getAbi() {
